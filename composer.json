@@ -1,0 +1,42 @@
+{
+  "name": "sumedia-webdesign/winestro-sw6",
+  "description": "Sumedia Winestro Extension",
+  "license": "MIT",
+  "version": "1.4.28",
+  "type": "shopware-platform-plugin",
+  "authors": [
+    {
+      "name": "Sven Ullmann <kontakt@sumedia-webdesign.de>"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Sumedia\\Wbo\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sumedia\\Wbo\\Test\\": "tests/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Sumedia\\Wbo\\SumediaWbo",
+    "plugin-icon": "src/Resources/config/plugin.png",
+    "label": {
+      "de-DE": "Sumedia Winestro Plugin",
+      "en-GB": "Sumedia Winestro Plugin"
+    },
+    "description": {
+      "de-DE": "Verwenden Sie Winestro als Ihr PIM System und erhalten Sie direkt Bestellungen in Winestro.",
+      "en-GB": "Use Winestro as your PIM system and get orders directly in Winestro."
+    },
+    "manufacturerLink": {
+      "de-DE": "https://www.sumedia-webdesign.de",
+      "en-GB": "https://www.sumedia-webdesign.de"
+    },
+    "supportLink": {
+      "de-DE": "https://www.sumedia-webdesign.de/sumedia-wbo/artikelnummer.html",
+      "en-GB": "https://www.sumedia-webdesign.de/sumedia-wbo/artikelnummer.html"
+    }
+  }
+}

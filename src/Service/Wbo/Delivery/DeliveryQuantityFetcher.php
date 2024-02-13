@@ -1,0 +1,86 @@
+<?php declare(strict_types=1);
+
+namespace Sumedia\Wbo\Service\Wbo\Delivery;
+
+use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryPosition;
+use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
+use Sumedia\Wbo\Config\WboConfig;
+use Sumedia\Wbo\Entity\WboArticlesEntity;
+use Sumedia\Wbo\Service\Context;
+use Symfony\Component\DependencyInjection\Container;
+
+class DeliveryQuantityFetcher
+{
+    /** @var EntityRepository */
+    protected $productRepository;
+
+    /** @var EntityRepository */
+    protected $wboArticleRepository;
+
+    /** @var WboConfig */
+    protected $wboConfig;
+
+    /** @var Context */
+    protected $context;
+
+    /** @var DeliveryQuantityFetcher */
+    public static $instance;
+
+    /** @var Container */
+    public static $container;
+
+    public function __construct(
+        EntityRepository $productRepository,
+        EntityRepository $wboArticleRepository,
+        WboConfig $wboConfig,
+        Context $context
+    ) {
+        $this->productRepository = $productRepository;
+        $this->wboArticleRepository = $wboArticleRepository;
+        $this->wboConfig = $wboConfig;
+        $this->context = $context;
+    }
+
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = self::$container->get('Sumedia\Wbo\Service\Delivery\DeliveryQuantityFetcher');
+        }
+        return self::$instance;
+    }
+
+    public function getQuantity(DeliveryPosition $deliveryPosition)
+    {
+        $countBottlesActivated = $this->wboConfig->get(WboConfig::COUNT_BOTTLES);
+        if (!$countBottlesActivated) {
+            return $deliveryPosition->getQuantity();
+        }
+
+        $lineItem = $deliveryPosition->getLineItem();
+        $referenceId = $lineItem->getReferencedId();
+        /** @var ProductEntity $product */
+        $product = $this->productRepository->search(
+            new Criteria([$referenceId]),
+            $this->context
+        )->first();
+        $productNumber = $product->getProductNumber();
+
+        /** @var WboArticlesEntity $wboArticle */
+        $wboArticle = $this->wboArticleRepository->search(
+            (new Criteria)->addFilter(
+                new EqualsFilter('productNumber', $productNumber)
+            ),
+            $this->context
+        )->first();
+
+        if ($wboArticle) {
+            return (int) $wboArticle->getBottles() * $deliveryPosition->getQuantity() ?: $deliveryPosition->getQuantity();
+        }
+        return $deliveryPosition->getQuantity();
+    }
+}
