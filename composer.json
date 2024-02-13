@@ -19,6 +19,9 @@
       "Sumedia\\Wbo\\Test\\": "tests/"
     }
   },
+  "require": {
+    "shopware/core": "^6.5"
+  },
   "extra": {
     "shopware-plugin-class": "Sumedia\\Wbo\\SumediaWbo",
     "plugin-icon": "src/Resources/config/plugin.png",
@@ -27,8 +30,8 @@
       "en-GB": "Sumedia Winestro Plugin"
     },
     "description": {
-      "de-DE": "Verwenden Sie Winestro als Ihr PIM System und erhalten Sie direkt Bestellungen in Winestro.",
-      "en-GB": "Use Winestro as your PIM system and get orders directly in Winestro."
+      "de-DE": "Verwenden Sie Winestro als Warenwirtschaftssystem, können Sie die Produktdaten, Bestellungen und weiteres mit Shopware 6 abgleichen.",
+      "en-GB": "If you use Winestro as a merchandise management system, you can compare product data, orders and more with Shopware 6."
     },
     "manufacturerLink": {
       "de-DE": "https://www.sumedia-webdesign.de",
