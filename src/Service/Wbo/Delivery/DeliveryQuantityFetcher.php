@@ -7,8 +7,6 @@ use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Sumedia\Wbo\Config\WboConfig;
 use Sumedia\Wbo\Entity\WboArticlesEntity;
 use Sumedia\Wbo\Service\Context;
@@ -49,7 +47,7 @@ class DeliveryQuantityFetcher
     public static function getInstance()
     {
         if (null === self::$instance) {
-            self::$instance = self::$container->get('Sumedia\Wbo\Service\Delivery\DeliveryQuantityFetcher');
+            self::$instance = self::$container->get('Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher');
         }
         return self::$instance;
     }

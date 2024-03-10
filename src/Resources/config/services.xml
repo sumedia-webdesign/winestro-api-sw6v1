@@ -348,7 +348,7 @@
         </service>
         -->
 
-        <service id="Sumedia\Wbo\Service\Delivery\DeliveryQuantityFetcher" public="true">
+        <service id="Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher" public="true">
             <argument type="service" id="product.repository" />
             <argument type="service" id="wbo_articles.repository" />
             <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />

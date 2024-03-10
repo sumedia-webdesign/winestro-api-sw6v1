@@ -6,7 +6,7 @@ require_once(__DIR__ . '/../../../../../Service/Wbo/Delivery/DeliveryQuantityFet
 
 use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryPosition;
 use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryPositionCollection as DeliveryPositionCollectionAlias;
-use Sumedia\Wbo\Service\Delivery\DeliveryQuantityFetcher;
+use Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher;
 
 class DeliveryPositionCollection extends DeliveryPositionCollectionAlias
 {
