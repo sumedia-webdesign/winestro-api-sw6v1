@@ -1,4 +1,4 @@
-# Winetro API Schnittstelle für Shopware 6
+# Winestro API Schnittstelle für Shopware 6
 
 ## API Schnittstelle URL
 
