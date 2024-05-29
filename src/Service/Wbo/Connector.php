@@ -16,23 +16,13 @@ use Sumedia\Wbo\Service\Wbo\Response\ResponseInterface;
 
 class Connector implements ConnectorInterface {
 
-    /** @var Credentials */
-    protected $credentials;
-
-    protected $language = 'DE';
-
-    /** @var Client */
-    protected $client;
-
-    protected $encoding = 'utf-8';
-
-    /** @var WboConfig */
-    protected $config;
-
-    /** @var LoggerInterface */
-    protected $logger;
-
-    protected $cache = [];
+    protected Credentials $credentials;
+    protected string $language = 'DE';
+    protected Client $client;
+    protected string $encoding = 'utf-8';
+    protected WboConfig $config;
+    protected LoggerInterface $logger;
+    protected array $cache = [];
 
     public function __construct(
         Credentials $credentials,

@@ -14,14 +14,9 @@ use Symfony\Component\Console\Command\Command;
 
 class AbstractCommand
 {
-    /** @var LoggerInterface */
-    protected $errorLogger;
-
-    /** @var LoggerInterface */
-    protected $debugLogger;
-
-    /** @var WboConfig */
-    protected $wboConfig;
+    protected LoggerInterface $errorLogger;
+    protected LoggerInterface $debugLogger;
+    protected WboConfig $wboConfig;
 
     public function __construct(LoggerInterface $errorLogger, LoggerInterface $debugLogger, WboConfig $wboConfig)
     {

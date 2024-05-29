@@ -17,11 +17,8 @@ class ShippingMatcher
 {
     const WBO_SHIPPING_FALLBACK_ID = 0;
 
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var array */
-    protected $shippingConfigMappingConstants;
+    protected WboConfig $wboConfig;
+    protected array $shippingConfigMappingConstants;
 
     public function __construct(WboConfig $wboConfig)
     {

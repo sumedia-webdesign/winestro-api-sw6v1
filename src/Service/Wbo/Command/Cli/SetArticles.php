@@ -19,13 +19,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SetArticles extends Command
 {
     protected static $defaultName = 'wbo:set-articles';
-
-    /** @var CommandInterface */
-    protected $command;
+    protected CommandInterface $command;
 
     public function __construct(CommandInterface $command)
     {
         $this->command = $command;
+        $this->setName(self::$defaultName);
         parent::__construct();
     }
 

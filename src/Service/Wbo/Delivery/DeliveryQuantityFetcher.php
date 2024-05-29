@@ -14,23 +14,12 @@ use Symfony\Component\DependencyInjection\Container;
 
 class DeliveryQuantityFetcher
 {
-    /** @var EntityRepository */
-    protected $productRepository;
-
-    /** @var EntityRepository */
-    protected $wboArticleRepository;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var Context */
-    protected $context;
-
-    /** @var DeliveryQuantityFetcher */
-    public static $instance;
-
-    /** @var Container */
-    public static $container;
+    protected EntityRepository $productRepository;
+    protected EntityRepository $wboArticleRepository;
+    protected WboConfig $wboConfig;
+    protected Context $context;
+    public static DeliveryQuantityFetcher $instance;
+    public static ?Container $container;
 
     public function __construct(
         EntityRepository $productRepository,

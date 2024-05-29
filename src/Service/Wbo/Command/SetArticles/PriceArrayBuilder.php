@@ -18,11 +18,8 @@ use Shopware\Core\System\Currency\CurrencyEntity;
 
 class PriceArrayBuilder
 {
-    /** @var EntityRepository */
-    protected $currencyRepository;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $currencyRepository;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $currencyRepository,

@@ -15,9 +15,7 @@ use Sumedia\Wbo\Setting\SumediaWboSettingStructValidator;
 class SettingsService implements SettingsServiceInterface
 {
     public const SYSTEM_CONFIG_DOMAIN = 'SumediaWbo.settings.';
-
-    /** @var SystemConfigService */
-    private $systemConfigService;
+    private SystemConfigService $systemConfigService;
 
     public function __construct(SystemConfigService $systemConfigService)
     {

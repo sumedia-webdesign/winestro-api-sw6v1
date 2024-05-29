@@ -12,6 +12,6 @@ use Sumedia\Wbo\Service\Wbo\Response\GetWineGroups as GetWineGroupsResponse;
 
 class GetWineGroups extends RequestAbstract
 {
-    protected $apiAction = 'getWineGroups';
-    protected $responseClass = GetWineGroupsResponse::class;
+    protected string $apiAction = 'getWineGroups';
+    protected string $responseClass = GetWineGroupsResponse::class;
 }

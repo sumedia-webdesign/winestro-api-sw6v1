@@ -12,6 +12,6 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticles as GetArticlesResponse;
 
 class GetArticles extends RequestAbstract
 {
-    protected $apiAction = 'getArtikel';
-    protected $responseClass = GetArticlesResponse::class;
+    protected string $apiAction = 'getArtikel';
+    protected string $responseClass = GetArticlesResponse::class;
 }

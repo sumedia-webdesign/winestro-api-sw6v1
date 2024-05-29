@@ -26,26 +26,13 @@ use Sumedia\Wbo\Service\Wbo\Request\CheckOrderStatus as CheckOrderStatusRequest;
 
 class CheckOrderStatus extends AbstractCommand implements CommandInterface
 {
-    /** @var WboConfig */
-    protected $config;
-
-    /** @var ConnectorInterface */
-    protected $connector;
-
-    /** @var Context */
-    protected $context;
-
-    /** @var CheckOrderStatusRequest */
-    protected $checkOrderStatus;
-
-    /** @var EntityRepository */
-    protected $orderRepository;
-
-    /** @var EntityRepository */
-    protected $orderDeliveryRepository;
-
-    /** @var StateMachineRegistry */
-    protected $stateMachineRegistry;
+    protected WboConfig $config;
+    protected ConnectorInterface $connector;
+    protected Context $context;
+    protected CheckOrderStatusRequest $checkOrderStatus;
+    protected EntityRepository $orderRepository;
+    protected EntityRepository $orderDeliveryRepository;
+    protected StateMachineRegistry $stateMachineRegistry;
 
     public function __construct(
         LoggerInterface $debugLogger,

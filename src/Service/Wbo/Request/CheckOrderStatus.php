@@ -12,9 +12,8 @@ use Sumedia\Wbo\Service\Wbo\Response\CheckOrderStatus as CheckOrderStatusRespons
 
 class CheckOrderStatus extends RequestAbstract
 {
-    protected $apiAction = 'getAuftragStatus';
-
-    protected $responseClass = CheckOrderStatusResponse::class;
+    protected string $apiAction = 'getAuftragStatus';
+    protected string $responseClass = CheckOrderStatusResponse::class;
 
     public function setOrderNumber(string $orderNumber): void
     {

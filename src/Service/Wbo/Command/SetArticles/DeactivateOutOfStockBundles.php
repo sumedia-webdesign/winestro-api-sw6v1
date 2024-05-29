@@ -17,17 +17,10 @@ use Sumedia\Wbo\Service\Wbo\ArticleNumberParser;
 
 class DeactivateOutOfStockBundles
 {
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var EntityRepository */
-    protected $wboArticle;
-
-    /** @var EntityRepository */
-    protected $product;
-
-    /** @var Context */
-    protected $context;
+    protected WboConfig $wboConfig;
+    protected EntityRepository $wboArticle;
+    protected EntityRepository $product;
+    protected Context $context;
 
     public function __construct(
         WboConfig $wboConfig,

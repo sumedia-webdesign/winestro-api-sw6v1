@@ -12,8 +12,7 @@ use Sumedia\Wbo\Config\WboConfig;
 
 class ArticleNumberParser
 {
-    /** @var WboConfig */
-    protected $wboConfig;
+    protected WboConfig $wboConfig;
 
     public function __construct(
         WboConfig $wboConfig

@@ -9,29 +9,18 @@ declare(strict_types=1);
 namespace Sumedia\Wbo\Service\Wbo\Request;
 
 use Sumedia\Wbo\Config\WboConfig;
-use Sumedia\Wbo\Service\Wbo\Response\Generic;
 use Sumedia\Wbo\Service\Wbo\Url\ShopUrl;
 use Sumedia\Wbo\Service\Wbo\Url\UrlInterface;
 
 abstract class RequestAbstract implements RequestInterface
 {
-    /** @var string */
-    protected $apiUrl;
-
-    /** @var string */
-    protected $apiAction;
-
-    /** @var string */
-    protected $responseClass;
-
-    protected $urlClass = ShopUrl::class;
-    protected $data = [];
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var UrlInterface */
-    protected $url;
+    protected string $apiUrl;
+    protected string $apiAction;
+    protected string $responseClass;
+    protected string $urlClass = ShopUrl::class;
+    protected array $data = [];
+    protected WboConfig $wboConfig;
+    protected UrlInterface $url;
 
     public function __construct(WboConfig $wboConfig, string $apiAction = null, string $responseClass = null, string $urlClass = null)
     {
@@ -53,7 +42,7 @@ abstract class RequestAbstract implements RequestInterface
 
     public function getUrl(): UrlInterface
     {
-        if(!$this->url) {
+        if(!isset($this->url)) {
             $this->url = new $this->urlClass($this->wboConfig);
         }
         return $this->url;

@@ -18,24 +18,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Sumedia\Wbo\Config\WboConfig;
 use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
-use Wbo\Entity\WboArticleEntity;
 
 class Cultivation
 {
-    /** @var EntityRepository */
-    protected $propertyGroupOptionRepository;
-
-    /** @var EntityRepository */
-    protected $propertyGroupRepository;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var LoggerInterface */
-    protected $logger;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $propertyGroupOptionRepository;
+    protected EntityRepository $propertyGroupRepository;
+    protected WboConfig $wboConfig;
+    protected LoggerInterface $logger;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $propertyGroupOptionRepository,

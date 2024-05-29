@@ -21,22 +21,12 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Grape
 {
-    /** @var EntityRepository */
-    protected $propertyGroupOptionRepository;
-
-    /** @var EntityRepository */
-    protected $propertyGroupRepository;
-
+    protected EntityRepository $propertyGroupOptionRepository;
+    protected EntityRepository $propertyGroupRepository;
     protected $grape = [];
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var LoggerInterface */
-    protected $logger;
-
-    /** @var Context */
-    protected $context;
+    protected WboConfig $wboConfig;
+    protected LoggerInterface $logger;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $propertyGroupOptionRepository,

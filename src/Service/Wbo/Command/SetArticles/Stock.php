@@ -19,23 +19,12 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Stock
 {
-    /** @var EntityRepository */
-    protected $wboArticlesRepository;
-
-    /** @var EntityRepository */
-    protected $productRepository;
-
-    /** @var GetBestand */
-    protected $getBestand;
-
-    /** @var ConnectorInterface */
-    protected $connector;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $wboArticlesRepository;
+    protected EntityRepository $productRepository;
+    protected GetBestand $getBestand;
+    protected ConnectorInterface $connector;
+    protected WboConfig $wboConfig;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $wboArticlesRepository,

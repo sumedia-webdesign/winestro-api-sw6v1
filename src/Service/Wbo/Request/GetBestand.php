@@ -13,8 +13,8 @@ use Sumedia\Wbo\Service\Wbo\Response\GetBestand as GetBestandResponse;
 
 class GetBestand extends RequestAbstract
 {
-    protected $apiAction = 'getBestand';
-    protected $responseClass = GetBestandResponse::class;
+    protected string $apiAction = 'getBestand';
+    protected string $responseClass = GetBestandResponse::class;
 
     public function __construct(
         WboConfig $wboConfig,

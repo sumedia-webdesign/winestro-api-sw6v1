@@ -18,14 +18,9 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Manufacturer
 {
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var EntityRepository */
-    protected $manufacturer;
-
-    /** @var Context */
-    protected $context;
+    protected WboConfig $wboConfig;
+    protected EntityRepository $manufacturer;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $manufacturer,

@@ -133,7 +133,6 @@
             <argument type="service" id="Shopware\Core\Content\Media\File\FileFetcher" />
             <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver" />
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
-            <argument type="service" id="Shopware\Core\Content\Media\Pathname\UrlGeneratorInterface"/>
             <argument type="service" id="Sumedia\Wbo\Context" />
         </service>
 

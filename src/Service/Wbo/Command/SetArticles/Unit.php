@@ -18,17 +18,10 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Unit
 {
-    /** @var EntityRepository */
-    protected $unitRepository;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var LoggerInterface */
-    protected $logger;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $unitRepository;
+    protected WboConfig $wboConfig;
+    protected LoggerInterface $logger;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $unitRepository,

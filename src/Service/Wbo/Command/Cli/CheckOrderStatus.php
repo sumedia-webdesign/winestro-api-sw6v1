@@ -26,6 +26,7 @@ class CheckOrderStatus extends Command
     public function __construct(CommandInterface $command)
     {
         $this->command = $command;
+        $this->setName(self::$defaultName);
         parent::__construct();
     }
 

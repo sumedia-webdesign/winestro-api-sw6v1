@@ -14,11 +14,8 @@ use Symfony\Component\Validator\Constraints\Type;
 
 class IsWboCart extends Rule
 {
-    /** @var bool */
-    protected $isWboCart;
-
-    /** @var bool */
-    protected $freeShippingOnlyWboCart;
+    protected bool $isWboCart;
+    protected bool $freeShippingOnlyWboCart;
 
     public function __construct(bool $freeShippingOnlyWboCart = false)
     {

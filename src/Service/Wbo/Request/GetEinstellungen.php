@@ -12,6 +12,6 @@ use Sumedia\Wbo\Service\Wbo\Response\GetEinstellungen as GetEinstellungenRespons
 
 class GetEinstellungen extends RequestAbstract
 {
-    protected $apiAction = 'getEinstellungen';
-    protected $responseClass = GetEinstellungenResponse::class;
+    protected string $apiAction = 'getEinstellungen';
+    protected string $responseClass = GetEinstellungenResponse::class;
 }

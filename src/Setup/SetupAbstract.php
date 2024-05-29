@@ -15,44 +15,15 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 abstract class SetupAbstract
 {
-    /**
-     * @var EntityRepository
-     */
-    protected $systemConfigRepository;
-
-    /**
-     * @var EntityRepository
-     */
-    protected $salesChannelRepository;
-
-    /** @var EntityRepository */
-    protected $ruleRepository;
-
-    /** @var EntityRepository */
-    protected $promotionTranslationRepository;
-
-    /** @var EntityRepository */
-    protected $promotionRepository;
-
-    /**
-     * @var PluginIdProvider
-     */
-    protected $pluginIdProvider;
-
-    /**
-     * @var string
-     */
-    protected $className;
-
-    /**
-     * @var SystemConfigService
-     */
-    protected $systemConfig;
-
-    /**
-     * @var Connection
-     */
-    protected $connection;
+    protected EntityRepository $systemConfigRepository;
+    protected EntityRepository $salesChannelRepository;
+    protected EntityRepository $ruleRepository;
+    protected EntityRepository $promotionTranslationRepository;
+    protected EntityRepository $promotionRepository;
+    protected PluginIdProvider $pluginIdProvider;
+    protected string $className;
+    protected SystemConfigService $systemConfig;
+    protected Connection $connection;
 
     public function __construct(
         EntityRepository $systemConfigRepository,

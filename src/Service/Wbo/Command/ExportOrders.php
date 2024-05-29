@@ -28,56 +28,23 @@ use Sumedia\Wbo\Service\WboPayments;
 
 class ExportOrders extends AbstractCommand implements CommandInterface
 {
-    /** @var WboConfig */
-    protected $config;
-
-    /** @var ConnectorInterface */
-    protected $connector;
-
-    /** @var Context */
-    protected $context;
-
-    /** @var ExportOrdersRequest */
-    protected $exportOrdersRequest;
-
-    /** @var EntityRepository */
-    protected $pluginRepository;
-
-    /** @var EntityRepository */
-    protected $orderRepository;
-
-    /** @var EntityRepository */
-    protected $orderAddressRepository;
-
-    /** @var EntityRepository */
-    protected $orderDeliveryRepository;
-
-    /** @var EntityRepository */
-    protected $orderTransactionRepository;
-
-    /** @var EntityRepository */
-    protected $paymentMethodRepository;
-
-    /** @var EntityRepository */
-    protected $shippingMethodRepository;
-
-    /** @var EntityRepository */
-    protected $orderLineItemRepository;
-
-    /** @var EntityRepository */
-    protected $customerRepository;
-
-    /** @var EntityRepository */
-    protected $salutationRepository;
-
-    /** @var EntityRepository */
-    protected $countryRepository;
-
-    /** @var EntityRepository */
-    protected $wboArticlesRepository;
-
-    /** @var EntityRepository */
-    protected $productRepository;
+    protected WboConfig $config;
+    protected ConnectorInterface $connector;
+    protected Context $context;
+    protected ExportOrdersRequest $exportOrdersRequest;
+    protected EntityRepository $pluginRepository;
+    protected EntityRepository $orderRepository;
+    protected EntityRepository $orderAddressRepository;
+    protected EntityRepository $orderDeliveryRepository;
+    protected EntityRepository $orderTransactionRepository;
+    protected EntityRepository $paymentMethodRepository;
+    protected EntityRepository $shippingMethodRepository;
+    protected EntityRepository $orderLineItemRepository;
+    protected EntityRepository $customerRepository;
+    protected EntityRepository $salutationRepository;
+    protected EntityRepository $countryRepository;
+    protected EntityRepository $wboArticlesRepository;
+    protected EntityRepository $productRepository;
 
     public function __construct(
         LoggerInterface $debugLogger,

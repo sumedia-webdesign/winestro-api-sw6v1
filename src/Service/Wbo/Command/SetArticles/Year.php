@@ -21,20 +21,12 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Year
 {
-    /** @var EntityRepository */
-    protected $propertyGroupOptionRepository;
+    protected EntityRepository $propertyGroupOptionRepository;
 
-    /** @var EntityRepository */
-    protected $propertyGroupRepository;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var LoggerInterface */
-    protected $logger;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $propertyGroupRepository;
+    protected WboConfig $wboConfig;
+    protected LoggerInterface $logger;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $propertyGroupOptionRepository,

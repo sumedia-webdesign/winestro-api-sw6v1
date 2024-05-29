@@ -22,14 +22,9 @@ class SalesChannel
     const VISIBILITY_SEARCH = 20;
     const VISIBILITY_ALL = 30;
 
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var EntityRepository */
-    protected $productVisibilityRepository;
-
-    /** @var Context */
-    protected $context;
+    protected WboConfig $wboConfig;
+    protected EntityRepository $productVisibilityRepository;
+    protected Context $context;
 
     public function __construct(
         WboConfig $wboConfig,

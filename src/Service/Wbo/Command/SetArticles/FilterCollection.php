@@ -6,7 +6,7 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class FilterCollection
 {
-    protected $filters = [];
+    protected array $filters = [];
 
     public function __construct()
     {

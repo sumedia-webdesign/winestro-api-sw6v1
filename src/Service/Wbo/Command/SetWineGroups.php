@@ -17,17 +17,10 @@ use Sumedia\Wbo\Service\Wbo\Request\RequestInterface;
 
 class SetWineGroups extends AbstractCommand implements CommandInterface
 {
-    /** @var EntityRepository */
-    protected $wineGroupsRepository;
-
-    /** @var RequestInterface */
-    protected $getWineGroups;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var ConnectorInterface */
-    protected $connector;
+    protected EntityRepository $wineGroupsRepository;
+    protected RequestInterface $getWineGroups;
+    protected WboConfig $wboConfig;
+    protected ConnectorInterface $connector;
 
     public function __construct(
         LoggerInterface $debugLogger,

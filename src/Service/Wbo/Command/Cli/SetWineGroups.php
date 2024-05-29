@@ -19,13 +19,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SetWineGroups extends Command
 {
     protected static $defaultName = 'wbo:set-wine-groups';
-
-    /** @var CommandInterface */
-    protected $command;
+    protected CommandInterface $command;
 
     public function __construct(CommandInterface $command)
     {
         $this->command = $command;
+        $this->setName(self::$defaultName);
         parent::__construct();
     }
 

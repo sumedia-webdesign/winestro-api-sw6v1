@@ -13,8 +13,7 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class IsActive
 {
-    /** @var LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface $logger

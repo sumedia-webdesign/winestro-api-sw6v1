@@ -18,14 +18,9 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Price
 {
-    /** @var EntityRepository */
-    protected $currencyRepository;
-
-    /** @var EntityRepository */
-    protected $productRepository;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $currencyRepository;
+    protected EntityRepository $productRepository;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $currencyRepository,

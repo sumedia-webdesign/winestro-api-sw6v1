@@ -12,10 +12,8 @@ use Sumedia\Wbo\Config\WboConfig;
 
 class ShopUrl implements UrlInterface {
 
-    /** @var string */
-    protected $apiUrl;
-
-    protected $endpoint = 'wbo-API.php';
+    protected string $apiUrl;
+    protected string $endpoint = 'wbo-API.php';
 
     public function __construct(WboConfig $wboConfig)
     {

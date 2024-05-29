@@ -17,17 +17,10 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class SetCategories
 {
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var EntityRepository */
-    protected $categoryTranslationRepository;
-
-    /** @var EntityRepository */
-    protected $productCategoryRepository;
-
-    /** @var Context */
-    protected $context;
+    protected WboConfig $wboConfig;
+    protected EntityRepository $categoryTranslationRepository;
+    protected EntityRepository $productCategoryRepository;
+    protected Context $context;
 
     public function __construct(
         WboConfig $wboConfig,

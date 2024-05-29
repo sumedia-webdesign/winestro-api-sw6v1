@@ -21,18 +21,11 @@ use Sumedia\Wbo\Service\Wbo\Response\ExportOrders as ExportOrdersResponse;
 
 class ExportOrders extends RequestAbstract
 {
-    protected $apiAction = 'newOrder';
-
-    protected $responseClass = ExportOrdersResponse::class;
-
-    /** @var EntityRepository */
-    protected $productRepository;
-
-    /** @var EntityRepository */
-    protected $wboArticlesRepository;
-
-    /** @var Context */
-    protected $context;
+    protected string $apiAction = 'newOrder';
+    protected string $responseClass = ExportOrdersResponse::class;
+    protected EntityRepository $productRepository;
+    protected EntityRepository $wboArticlesRepository;
+    protected Context $context;
 
     public function __construct(
         WboConfig $wboConfig,

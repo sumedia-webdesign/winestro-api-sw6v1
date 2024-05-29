@@ -16,11 +16,8 @@ class PaymentMatcher
 {
     const WBO_PAYMENT_FALLBACK_ID = WboPayments::PAYMENT_PREPAYED;
 
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var array */
-    protected $paymentConfigMappingConstants;
+    protected WboConfig $wboConfig;
+    protected array $paymentConfigMappingConstants;
 
     public function __construct(WboConfig $wboConfig)
     {

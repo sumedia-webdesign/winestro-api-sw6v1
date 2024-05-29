@@ -12,10 +12,8 @@ use Sumedia\Wbo\Config\WboConfig;
 
 class ImageUrl implements UrlInterface {
 
-    /** @var string */
-    protected $apiUrl;
-
-    protected $endpoint = 'bild.php';
+    protected string $apiUrl;
+    protected string $endpoint = 'bild.php';
 
     public function __construct(WboConfig $wboConfig)
     {

@@ -32,41 +32,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SetArticles extends AbstractCommand implements CommandInterface
 {
-    /** @var EntityRepository */
-    protected $wboArticlesRepository;
-
-    /** @var EntityRepository */
-    protected $wboProductsRepository;
-
-    /** @var EntityRepository */
-    protected $productRepository;
-
-    /** @var EntityRepository */
-    protected $taxRepository;
-
-    /** @var RequestInterface */
-    protected $getArticles;
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var ConnectorInterface */
-    protected $connector;
-
-    /** @var ArticleNumberParser */
-    protected $articleNumberParser;
-
-    /** @var FilterCollection */
-    protected $filterCollection;
-
-    /** @var DeactivateOutOfStockBundles */
-    protected $deactivateOutOfStockBundles;
-
-    /** @var Context */
-    protected $context;
-
-    /** @var array */
-    protected $parentProductIdsTmp = [];
+    protected EntityRepository $wboArticlesRepository;
+    protected EntityRepository $wboProductsRepository;
+    protected EntityRepository $productRepository;
+    protected EntityRepository $taxRepository;
+    protected RequestInterface $getArticles;
+    protected WboConfig $wboConfig;
+    protected ConnectorInterface $connector;
+    protected ArticleNumberParser $articleNumberParser;
+    protected FilterCollection $filterCollection;
+    protected DeactivateOutOfStockBundles $deactivateOutOfStockBundles;
+    protected Context $context;
+    protected array $parentProductIdsTmp = [];
 
     public function __construct(
         LoggerInterface $debugLogger,

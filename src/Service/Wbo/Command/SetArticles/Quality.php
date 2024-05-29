@@ -21,22 +21,12 @@ use Sumedia\Wbo\Service\Wbo\Response\GetArticle\Article;
 
 class Quality
 {
-    /** @var EntityRepository */
-    protected $propertyGroupOptionRepository;
-
-    /** @var EntityRepository */
-    protected $propertyGroupRepository;
-
-    protected $quality = [];
-
-    /** @var WboConfig */
-    protected $wboConfig;
-
-    /** @var LoggerInterface */
-    protected $logger;
-
-    /** @var Context */
-    protected $context;
+    protected EntityRepository $propertyGroupOptionRepository;
+    protected EntityRepository $propertyGroupRepository;
+    protected array $quality = [];
+    protected WboConfig $wboConfig;
+    protected LoggerInterface $logger;
+    protected Context $context;
 
     public function __construct(
         EntityRepository $propertyGroupOptionRepository,

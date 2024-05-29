@@ -17,8 +17,6 @@ use Shopware\Core\Content\Media\File\MediaFile;
 use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Content\Media\MediaType\ImageType;
-use Shopware\Core\Content\Media\Pathname\UrlGenerator;
-use Shopware\Core\Content\Media\Pathname\UrlGeneratorInterface;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaCollection;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaEntity;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -60,9 +58,6 @@ class Images
     /** @var MediaService */
     protected $mediaService;
 
-    /** @var UrlGeneratorInterface */
-    protected $urlGenerator;
-
     /** @var Context */
     protected $context;
 
@@ -79,7 +74,6 @@ class Images
         FileFetcher $fileFetcher,
         FileSaver $fileSaver,
         MediaService $mediaService,
-        UrlGeneratorInterface $urlGenerator,
         Context $context
     )
     {
@@ -92,7 +86,6 @@ class Images
         $this->fileFetcher = $fileFetcher;
         $this->fileSaver = $fileSaver;
         $this->mediaService = $mediaService;
-        $this->urlGenerator = $urlGenerator;
         $this->context = $context;
     }
 
@@ -311,7 +304,7 @@ class Images
     {
         $search = $this->productRepository->search(
             (new Criteria([$id]))->addAssociation('media'),
-            Context::createDefaultContext()
+            $this->context
         );
         if ($search->count()) {
             return $search->get($id);

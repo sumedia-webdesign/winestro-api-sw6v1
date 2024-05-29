@@ -13,8 +13,7 @@ use Sumedia\Wbo\Config\WboConfig;
 
 class DeliveryTime
 {
-    /** @var WboConfig */
-    protected $wboConfig;
+    protected WboConfig $wboConfig;
 
     public function __construct(
         WboConfig $wboConfig
