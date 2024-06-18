@@ -35,7 +35,7 @@ class DeliveryQuantityFetcher
 
     public static function getInstance()
     {
-        if (null === self::$instance) {
+        if (!isset(self::$instance)) {
             self::$instance = self::$container->get('Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher');
         }
         return self::$instance;
