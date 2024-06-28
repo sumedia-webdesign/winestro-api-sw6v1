@@ -12,9 +12,9 @@ use Shopware\Core\Framework\Struct\Struct;
 
 class SumediaWboSettingStruct extends Struct
 {
-    protected string $apiUrl;
-    protected string $clientId;
-    protected string $clientSecret;
+    protected string $apiUrl = '';
+    protected string $clientId = '';
+    protected string $clientSecret = '';
 
     public function getApiUrl(): string
     {
