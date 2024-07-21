@@ -35,18 +35,13 @@ class WboOrdersEntity extends Entity
         return $this->productId;
     }
 
-    public function setProductId(int $productId): void
+    public function setWboOrderNumber(string $wboOrderNumber): void
     {
-        $this->productId = $productId;
+        $this->wboOrderNumber = $wboOrderNumber;
     }
 
-    public function getWboArticleId() : string
+    public function getWboOrderNumber() : string
     {
-        return $this->wboArticleId;
-    }
-
-    public function setWboArticleId(string $wboArticleId) : void
-    {
-        $this->wboArticleId = $wboArticleId;
+        return $this->wboOrderNumber;
     }
 }

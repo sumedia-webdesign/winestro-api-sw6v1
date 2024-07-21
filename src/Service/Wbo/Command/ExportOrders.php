@@ -13,12 +13,15 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
+use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Sumedia\Wbo\Config\WboConfig;
 use Sumedia\Wbo\Service\Wbo\ConnectorInterface;
 use Sumedia\Wbo\Service\Wbo\PaymentMatcher;
@@ -34,6 +37,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
     protected ExportOrdersRequest $exportOrdersRequest;
     protected EntityRepository $pluginRepository;
     protected EntityRepository $orderRepository;
+    protected EntityRepository $wboOrdersRepository;
     protected EntityRepository $orderAddressRepository;
     protected EntityRepository $orderDeliveryRepository;
     protected EntityRepository $orderTransactionRepository;
@@ -55,6 +59,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         ExportOrdersRequest $exportOrdersRequest,
         EntityRepository $pluginRepository,
         EntityRepository $orderRepository,
+        EntityRepository $wboOrdersRepository,
         EntityRepository $orderAddressRepository,
         EntityRepository $orderDeliveryRepository,
         EntityRepository $orderTransactionRepository,
@@ -73,6 +78,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         $this->pluginRepository = $pluginRepository;
         $this->exportOrdersRequest = $exportOrdersRequest;
         $this->orderRepository = $orderRepository;
+        $this->wboOrdersRepository = $wboOrdersRepository;
         $this->orderAddressRepository = $orderAddressRepository;
         $this->orderDeliveryRepository = $orderDeliveryRepository;
         $this->orderTransactionRepository = $orderTransactionRepository;
@@ -96,45 +102,94 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         }
 
         try {
-            $orders = $this->getNewOrders();
+            $this->migrateOldOrders();
+            $orders = $this->getNewestOrders();
             $this->exportOrders($orders);
         } catch(\Throwable $e) {
             $this->logException($e);
         }
     }
 
-    protected function getNewOrders() : EntitySearchResult
+    protected function migrateOldOrders(): void
     {
+        if (null !== $this->wboOrdersRepository->search((new Criteria())->setLimit(1), $this->context)->first()) {
+            return;
+        }
+
         $orderCriteria = new Criteria();
-        $orderCriteria->addFilter(new EqualsFilter('customFields.wbo_order_exported_flag', null));
-        $orderCriteria->addFilter(new RangeFilter('createdAt', [
-            RangeFilter::GT => $this->getPluginInstallationDate()->format('Y-m-d H:i:s')
-        ]));
-        return $this->orderRepository->search($orderCriteria, $this->context);
-    }
-
-    protected function getPluginInstallationDate(): \DateTimeImmutable
-    {
-        $plugin = $this->pluginRepository->search(
-            (new Criteria())->addFilter(new EqualsFilter('name', 'SumediaWbo')),
-            $this->context
-        )->first();
-        return $plugin->getInstalledAt();
-    }
-
-    protected function exportOrders(EntitySearchResult $orders): void
-    {
+        $orderCriteria->addFilter(new EqualsFilter('customFields.wbo_order_exported_flag', 1));
+        $orders = $this->orderRepository->search($orderCriteria, $this->context);
         foreach ($orders as $order) {
-            $this->exportOrder($order);
+            $this->wboOrdersRepository->create([[
+                'id' => Uuid::randomHex(),
+                'orderId' => $order->getId(),
+                'wboOrderNumber' => (string) ($order->getCustomFields()['wbo_order_number'] ?: '-1'),
+                'createdAt' => $order->getCreatedAt()
+            ]], $this->context);
         }
     }
 
-    protected function exportOrder(OrderEntity $order): void
+    protected function getNewestOrders() : array
+    {
+        $newestOrders = [];
+
+        $orderCriteria = new Criteria();
+        $orderCriteria->addFilter(new RangeFilter('createdAt', [
+            RangeFilter::GT => $this->getLastOrderDate()->format('Y-m-d H:i:s')
+        ]));
+        $orders = $this->orderRepository->search($orderCriteria, $this->context);
+        foreach ($orders as $order) {
+            $wboOrder = $this->wboOrdersRepository->search(
+                (new Criteria())
+                    ->addFilter(new EqualsFilter('orderId', $order->getId())
+            ), $this->context)->first();
+            if (null === $wboOrder) {
+                $newestOrders[] = $order;
+            }
+        }
+
+        return $newestOrders;
+    }
+
+    protected function getLastOrderDate() : \DateTimeImmutable
+    {
+        $date = $this->getLastWboOrdersTableDate();
+        if ($date === null) {
+            $date = new \DateTimeImmutable();
+            return $date;
+        }
+        return $date;
+    }
+
+    protected function getLastWboOrdersTableDate(): ?\DateTimeImmutable
+    {
+        $order = $this->wboOrdersRepository->search(
+            (new Criteria())
+                ->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING))
+                ->setLimit(1),
+            $this->context
+        )->first();
+        if ($order === null) {
+            return null;
+        }
+        return $order->getCreatedAt();
+    }
+
+    protected function exportOrders(array $orders): void
+    {
+        foreach ($orders as $order) {
+            $orderNumber = $this->exportOrder($order);
+            if (null !== $orderNumber) {
+                $this->setOrderExportedOrderNumber($order, $orderNumber);
+            }
+        }
+    }
+
+    protected function exportOrder(OrderEntity $order): ?string
     {
         $items = $this->getWboLineItems($order);
         if (!count($items)) {
-            $this->setOrderExportedFlag($order);
-            return;
+            return "-1";
         }
 
         $billingAddress = $this->getBillingAddress($order);
@@ -146,8 +201,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
 
         $customer = $this->getCustomer($order);
         if (null === $customer) {
-            $this->setOrderExportedFlag($order);
-            return;
+            return "-1";
         }
         $shippingCosts = $order->getShippingCosts()->getTotalPrice();
         $paymentMethodId = $this->getPaymentMethodId($order);
@@ -158,7 +212,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         $wboShippingMethodCode = $this->shippingMethodIdToWboCode($shippingMethodId);
 
         try {
-            $orderNumber = $this->exportOrderToWbo(
+            return $this->exportOrderToWbo(
                 $order,
                 $customer,
                 $items,
@@ -170,13 +224,10 @@ class ExportOrders extends AbstractCommand implements CommandInterface
                 $paypalTransactionId,
                 $customerComment
             );
-            if ($orderNumber) {
-                $this->setOrderExportedFlag($order);
-                $this->setOrderExportedOrderNumber($order, $orderNumber);
-            }
         } catch(\Throwable $e) {
             $this->logException($e);
         }
+        return null;
     }
 
     protected function getBillingAddress(OrderEntity $order) : ?OrderAddressEntity
@@ -433,27 +484,13 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         return $orderNumber;
     }
 
-    protected function setOrderExportedFlag(OrderEntity $order): void
+    protected function setOrderExportedOrderNumber(OrderEntity $order, string $wboOrderNumber): void
     {
-        $customFields = $order->getCustomFields();
-        $customFields['wbo_order_exported_flag'] = 1;
-        $this->orderRepository->update([
-            [
-                'id' => $order->getId(),
-                'customFields' => $customFields
-            ]
-        ], $this->context);
-    }
-
-    protected function setOrderExportedOrderNumber(OrderEntity $order, int $orderNumber): void
-    {
-        $customFields = $order->getCustomFields();
-        $customFields['wbo_order_number'] = $orderNumber;
-        $this->orderRepository->update([
-            [
-                'id' => $order->getId(),
-                'customFields' => $customFields
-            ]
-        ], $this->context);
+        $this->wboOrdersRepository->create([[
+            'id' => Uuid::randomHex(),
+            'orderId' => $order->getId(),
+            'wboOrderNumber' => $wboOrderNumber,
+            'createdAt' => new \DateTimeImmutable(),
+        ]], $this->context);
     }
 }

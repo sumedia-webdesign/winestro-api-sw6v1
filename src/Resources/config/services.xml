@@ -51,6 +51,10 @@
             <tag name="shopware.entity.definition" entity="wbo_products" />
         </service>
 
+        <service id="Sumedia\Wbo\Entity\WboOrdersDefinition">
+            <tag name="shopware.entity.definition" entity="wbo_orders" />
+        </service>
+
         <service id="Sumedia\Wbo\Service\Wbo\Request\GetEinstellungen" public="true">
             <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
         </service>
@@ -285,6 +289,7 @@
             <argument type="service" id="Sumedia\Wbo\Service\Wbo\Request\ExportOrders" />
             <argument type="service" id="plugin.repository" />
             <argument type="service" id="order.repository" />
+            <argument type="service" id="wbo_orders.repository" />
             <argument type="service" id="order_address.repository" />
             <argument type="service" id="order_delivery.repository" />
             <argument type="service" id="order_transaction.repository" />

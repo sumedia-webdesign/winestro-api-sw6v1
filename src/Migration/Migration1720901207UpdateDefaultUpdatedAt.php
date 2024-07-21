@@ -16,9 +16,9 @@ class Migration1720901207UpdateDefaultUpdatedAt extends MigrationStep
     public function update(Connection $connection): void
     {
         /** create compatibility with newer sql mode */
-        $connection->executeStatement("ALTER TABLE wbo_wine_groups MODIFY COLUMN updated_at datetime NOT NULL DEFAULT '0000-01-01 00:00:00'");
-        $connection->executeStatement("ALTER TABLE wbo_articles MODIFY COLUMN updated_at datetime NOT NULL DEFAULT '0000-01-01 00:00:00'");
-        $connection->executeStatement("ALTER TABLE wbo_products MODIFY COLUMN updated_at datetime NOT NULL DEFAULT '0000-01-01 00:00:00'");
+        $connection->executeStatement("ALTER TABLE wbo_wine_groups MODIFY COLUMN updated_at datetime NULL DEFAULT '0000-01-01 00:00:00'");
+        $connection->executeStatement("ALTER TABLE wbo_articles MODIFY COLUMN updated_at datetime NULL DEFAULT '0000-01-01 00:00:00'");
+        $connection->executeStatement("ALTER TABLE wbo_products MODIFY COLUMN updated_at datetime NULL DEFAULT '0000-01-01 00:00:00'");
     }
 
     public function updateDestructive(Connection $connection): void

@@ -12,10 +12,10 @@ use Sumedia\Wbo\Config\WboConfig;
 
 class Credentials
 {
-    protected string $userId;
-    protected string $shopId;
-    protected string $clientId;
-    protected string $clientSecret;
+    protected ?string $userId;
+    protected ?string $shopId;
+    protected ?string $clientId;
+    protected ?string $clientSecret;
 
     public function __construct(WboConfig $wboConfig)
     {
