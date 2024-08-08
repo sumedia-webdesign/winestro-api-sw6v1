@@ -123,7 +123,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
             $this->wboOrdersRepository->create([[
                 'id' => Uuid::randomHex(),
                 'orderId' => $order->getId(),
-                'wboOrderNumber' => (string) ($order->getCustomFields()['wbo_order_number'] ?: '-1'),
+                'wboOrderNumber' => (string) ($order->getCustomFields()['wbo_order_number'] ?? '-1'),
                 'createdAt' => $order->getCreatedAt()
             ]], $this->context);
         }
