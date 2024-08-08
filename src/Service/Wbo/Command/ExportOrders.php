@@ -156,7 +156,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         $date = $this->getLastWboOrdersTableDate();
         if ($date === null) {
             $date = new \DateTimeImmutable();
-            $date = $date->sub(new \DateInterval('P1D'));
+            $date = $date->sub(\DateInterval::createFromDateString('1 day'));
             return $date;
         }
         return $date;
