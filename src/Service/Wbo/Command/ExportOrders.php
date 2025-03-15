@@ -28,6 +28,7 @@ use Sumedia\Wbo\Service\Wbo\PaymentMatcher;
 use Sumedia\Wbo\Service\Wbo\Request\ExportOrders as ExportOrdersRequest;
 use Sumedia\Wbo\Service\Wbo\ShippingMatcher;
 use Sumedia\Wbo\Service\WboPayments;
+use Symfony\Component\Validator\Constraints\Range;
 
 class ExportOrders extends AbstractCommand implements CommandInterface
 {
@@ -137,6 +138,9 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         $orderCriteria->addFilter(new RangeFilter('createdAt', [
             RangeFilter::GT => $this->getLastOrderDate()->format('Y-m-d H:i:s')
         ]));
+        $orderCriteria->addFilter(new RangeFilter('createdAt', [
+            RangeFilter::GT => (new \DateTimeImmutable())->sub(\DateInterval::createFromDateString('5 days'))->format('Y-m-d H:i:s')
+        ]));
         $orders = $this->orderRepository->search($orderCriteria, $this->context);
         foreach ($orders as $order) {
             $wboOrder = $this->wboOrdersRepository->search(
@@ -170,10 +174,7 @@ class ExportOrders extends AbstractCommand implements CommandInterface
                 ->setLimit(1),
             $this->context
         )->first();
-        if ($order === null) {
-            return null;
-        }
-        return $order->getCreatedAt();
+        return $order === null ? null : $order->getCreatedAt();
     }
 
     protected function exportOrders(array $orders): void

@@ -131,6 +131,34 @@ class WboArticlesEntity extends Entity
 
     protected $ean = '';
 
+    protected $eLabelLink = '';
+
+    protected $eLabelExtern = '';
+
+    protected $bestBeforeDate = '';
+
+    protected $fat = 0.0;
+
+    protected $unsaturatedFats = 0.0;
+
+    protected $carbonhydrates = 0.0;
+
+    protected $salt = 0.0;
+
+    protected $fiber = 0.0;
+
+    protected $vitamins = '';
+
+    protected $freeSulfitAcid = 0.0;
+
+    protected $sulfitAcid = 0.0;
+
+    protected $histamines = '';
+
+    protected $glycerin = '';
+
+    protected $labelText = '';
+
     protected $manufacturer = '';
 
     protected $importedAt = '';
@@ -751,6 +779,16 @@ class WboArticlesEntity extends Entity
         $this->ean = $ean;
     }
 
+    public function getELabelLink(): string
+    {
+        return $this->eLabelLink ?: '';
+    }
+
+    public function setELabelLink(string $eLabelLink): void
+    {
+        $this->eLabelLink = $eLabelLink;
+    }
+
     public function getImportedAt(): string
     {
         return $this->importedAt;
@@ -789,5 +827,135 @@ class WboArticlesEntity extends Entity
     public function setBundle(array $bundle): void
     {
         $this->bundle = $bundle;
+    }
+
+    public function getELabelExtern(): string
+    {
+        return $this->eLabelExtern ?: '';
+    }
+
+    public function setELabelExtern(string $eLabelExtern): void
+    {
+        $this->eLabelExtern = $eLabelExtern;
+    }
+
+    public function getBestBeforeDate(): string
+    {
+        return $this->bestBeforeDate ?: '';
+    }
+
+    public function setBestBeforeDate(string $bestBeforeDate): void
+    {
+        $this->bestBeforeDate = $bestBeforeDate;
+    }
+
+    public function getFat(): float
+    {
+        return $this->fat ?: 0.0;
+    }
+
+    public function setFat(float $fat): void
+    {
+        $this->fat = $fat;
+    }
+
+    public function getUnsaturatedFats(): float
+    {
+        return $this->unsaturatedFats ?: 0.0;
+    }
+
+    public function setUnsaturatedFats(float $unsaturatedFats): void
+    {
+        $this->unsaturatedFats = $unsaturatedFats;
+    }
+
+    public function getCarbonhydrates(): float
+    {
+        return $this->carbonhydrates ?: 0.0;
+    }
+
+    public function setCarbonhydrates(float $carbonhydrates): void
+    {
+        $this->carbonhydrates = $carbonhydrates;
+    }
+
+    public function getSalt(): float
+    {
+        return $this->salt ?: 0.0;
+    }
+
+    public function setSalt(float $salt): void
+    {
+        $this->salt = $salt;
+    }
+
+    public function getFiber(): float
+    {
+        return $this->fiber ?: 0.0;
+    }
+
+    public function setFiber(float $fiber): void
+    {
+        $this->fiber = $fiber;
+    }
+
+    public function getVitamins(): string
+    {
+        return $this->vitamins ?: '';
+    }
+
+    public function setVitamins(string $vitamins): void
+    {
+        $this->vitamins = $vitamins;
+    }
+
+    public function getFreeSulfitAcid(): float
+    {
+        return $this->freeSulfitAcid ?: 0.0;
+    }
+
+    public function setFreeSulfitAcid(float $freeSulfitAcid): void
+    {
+        $this->freeSulfitAcid = $freeSulfitAcid;
+    }
+
+    public function getSulfitAcid(): float
+    {
+        return $this->sulfitAcid ?: 0.0;
+    }
+
+    public function setSulfitAcid(float $sulfitAcid): void
+    {
+        $this->sulfitAcid = $sulfitAcid;
+    }
+
+    public function getHistamines(): string
+    {
+        return $this->histamines ?: '';
+    }
+
+    public function setHistamines(string $histamines): void
+    {
+        $this->histamines = $histamines;
+    }
+
+    public function getGlycerin(): string
+    {
+        return $this->glycerin ?: '';
+    }
+
+    public function setGlycerin(string $glycerin): void
+    {
+        $this->glycerin = $glycerin;
+    }
+
+    public function getLabelText(): string
+    {
+        return $this->labelText ?: '';
+    }
+
+    public function setLabelText(string $labelText): void
+    {
+        $this->labelText = $labelText;
     }
 }

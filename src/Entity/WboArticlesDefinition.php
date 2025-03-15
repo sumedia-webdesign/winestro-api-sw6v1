@@ -94,6 +94,7 @@ class WboArticlesDefinition extends EntityDefinition
         $fieldCollection[] = (new StringField('taste', 'taste'));
         $fieldCollection[] = (new StringField('year', 'year'));
         $fieldCollection[] = (new FloatField('acid', 'acid'));
+        $fieldCollection[] = (new StringField('e_label_link', 'eLabelLink'));
 
         $fieldCollection[] = (new StringField('image_1', 'image1'));
         $fieldCollection[] = (new StringField('image_2', 'image2'));
@@ -110,7 +111,20 @@ class WboArticlesDefinition extends EntityDefinition
         $fieldCollection[] = (new StringField('unit', 'unit'));
         $fieldCollection[] = (new IntField('unit_quantity', 'unitQuantity'));
         $fieldCollection[] = (new StringField('ean', 'ean'));
-
+        $fieldCollection[] = (new StringField('e_label_link', 'eLabelLink'));
+        $fieldCollection[] = (new StringField('e_label_extern', 'eLabelExtern'));
+        $fieldCollection[] = (new StringField('best_before_date', 'bestBeforeDate'));
+        $fieldCollection[] = (new FloatField('fat', 'fat'));
+        $fieldCollection[] = (new FloatField('unsaturated_fats', 'unsaturatedFats'));
+        $fieldCollection[] = (new FloatField('carbonhydrates', 'carbonhydrates'));
+        $fieldCollection[] = (new FloatField('salt', 'salt'));
+        $fieldCollection[] = (new FloatField('fiber', 'fiber'));
+        $fieldCollection[] = (new StringField('vitamins', 'vitamins'));
+        $fieldCollection[] = (new FloatField('free_sulfit_acid', 'freeSulfitAcid'));
+        $fieldCollection[] = (new FloatField('sulfit_acid', 'sulfitAcid'));
+        $fieldCollection[] = (new StringField('histamines', 'histamines'));
+        $fieldCollection[] = (new StringField('glycerin', 'glycerin'));
+        $fieldCollection[] = (new StringField('label_text', 'labelText'));
 
         $fieldCollection[] = (new DateTimeField('created_at', 'createdAt'))->addFlags(new Required());
         $fieldCollection[] = (new DateTimeField('updated_at', 'updatedAt'));

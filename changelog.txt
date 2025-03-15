@@ -1,0 +1,392 @@
+1.0.1
+- Contextinformationen werden jetzt als Abhängigkeit in die Klassen injiziert.
+- Produkteigenschaften wie Jahrgang werden jetzt nicht mehr automatisch angelegt und müssen einmal Konfiguriert werden.
+- Bei der Datenabfrage bei WBO wird jetzt nicht der Datensatz aus der Datenbank verwendet, wenn es Probleme bei der Kommunikation gibt.
+- Die Response Klasse einer Schnittstellenabfrage übernimmt jetzt die Validierung übermittelter Wert. So sind z.B. leere Arrays nun mit null gespeichert.
+- Bug behoben in dem die Übermittlung der XML-Schnittstelle im Encoding UTF-8 erfolgt im XML aber mit ISO-8859-1 deklariert wird. Was zu Encodingfehlern beim Parsen des XML führt.
+- Fehler in Verwechslung von JSON und Serialization behoben
+- Fehler behoben in dem Inlands-Freiversand nicht richtig konfiguriert wurde
+- BUG: Auslands Freiversand steht dauerhaft auf "Kein Freiversand", Weinbau Online ist über einen Bug hierzu informiert.
+- FEATURE: Wenn eine Kategorie mit der Warengruppe übereinstimmt, dann wird das Produkt dieser Kategorie zugeordnet.
+
+1.0.2
+- Inkompatibilität mit Setupscripten und aktueller Shopware Version behoben.
+
+1.0.3
+- CLI Support.
+- Fixen der vorgesehen Zeichenkodierungsconvertierung.
+- Versionierung aus composer.json entfernt.
+
+1.0.4
+- Installationsroutine prüft ob Tabelle bereits angelegt ist.
+- Kategorieübernahme ist jetzt konfigurierbar.
+- Fehler in Eigenschaft "Geschmack" behoben. (Returntype).
+- Zahlungsarten beim Bestellungsexport können wieder zugeordnet werden.
+
+1.0.5
+- Lagerbestandsberechnung korrigiert
+(Aktuell noch Fragen bezüglich API übermittlung des Stocks offen).
+
+1.0.6
+- Lagerbestansberechnung korrigiert
+(Undokumentierte Funktionalität aus Weinbau Online angesprochen für Lagerbestand).
+
+1.0.7
+- Lagerbestand konfigurierbar/deaktivierbar machen mit minimal Bestand.
+
+1.0.8
+- Konfigurationsoption zum Abschalten von automatischen E-Mails via WBO (Bestellbestätigung).
+
+1.0.9
+- String Datentype in Wine Groups hergestellt.
+- Stock zu Falchenanzahl im Paket geändert.
+
+1.0.10
+- composer.json mit Versionierung aktualisiert.
+
+1.0.11
+- Default Stock wenn Stock Managment deaktiviert ist.
+
+1.0.12
+- Deaktiviere nicht übermittelte Produkte.
+
+1.0.13
+- Typecasting nach Datenabfrage korrigiert.
+- Produkt-Aktivierung-Logging hinzugefügt.
+
+1.0.14
+- Typo in Payment Mapping beseitigt.
+- Transmittion Log implementiert.
+
+1.0.15
+- Aktiviere Konfigurationsoption Transmittion Log.
+
+1.0.16
+- Composer Version einstellen.
+
+1.0.17
+- Problem behoben in dem die Zahlungsart nicht übermittelt wurde.
+- Support für Versandarten hinzugefügt (Fehler serverseitig noch offen).
+- Stati bei Order Export wird nicht mehr fälschlich auf Done gesetzt.
+- Handling für Übermittlungsstatus korrigiert.
+
+1.0.18
+- Übermittlung der Lieferart von WBO gefixt und hier aktiviert.
+- Bug in Auslands-Discount behoben (kostenloser Versand) - var_dump entfernt.
+- WBO übermittelt url-kodierte Artikelnummer, dieser Umstand wurde berücksichtigt.
+
+1.1.0
+- Die übermittelung der Artikelnummer wurde angepasst. Diese entspricht jetzt dem allgemeinen Standardvorgehen sowohl Jahrgang als auch Füllung in der Artikelnummer zu speichern. Das Format ist konfigurierbar und kann auch mit der vorherigen Artikelnummer weiter betrieben werden. Sollte diese Änderung nicht gewünscht sein dann bitte in der Konfiguration einfach "[articlenumber]" hinterlegen. Siehe Artikelnummer-Format.
+
+1.1.1
+- Dirty fix für das Laden der Produkte mit mehrfacher Produktnummer Korrektur kommt.
+
+1.1.2
+- Neue Tabellenfelder zur Differenzierung zwischen Artikel- und gefilterter Produktnummer.
+- Speicherung des verwendeten Artikelnummerfilterformats.
+- Entfernen des Dirty fix aus 1.1.1.
+- Bestellungen verarbeiten jetzt das neue Artikelnummerformat.
+
+1.1.3
+- Order Exports verwendet jetzt generierten Context.
+- Fehler behoben, in dem nicht Produkte wie Rabatte als Position gefiltert werden und.
+für eine Exception sorgen, da die Produkt-ID nicht gesetzt ist. - Erweitertes Login zur Kontaktaufnahme mit WBO.
+- Produktdatenübernahme aus Weinbau Online kann jetzt aktiviert/deaktiviert werden.
+
+1.1.4
+- Fix wrong documented billing address city.
+
+1.1.5
+- Fix error in which payment mapping could not be solved correctyl due to uppercase word problem.
+
+1.1.6
+- Fehler behoben in dem ein falscher regulärer Ausdruck das Artikelnummerformat nicht übernommen hat.
+
+1.1.7
+- Unterdrückung von Emails aus dem Weinbau Online System behoben.
+
+1.1.8
+- Separieren von Error und Debug Log.
+- Created At Fehlermeldung beim erstellen der Weingruppen behoben.
+
+1.1.9
+- Entfernen des Lieferzeiten Pflichtfeld für die Aktivierung des Plugins.
+
+1.1.10
+- Mehrfache Warengruppen unterstützen.
+
+1.1.11
+1.1.12
+- Fehler beheben in dem leere Warengruppen einen Arrayfehler werfen.
+
+1.1.13
+- Bestellnummer aus WBO sichern
+- Verhindere Debug Ausgaben von heiklen Daten (nur wenn diese gesetzt wurden).
+
+1.1.14
+1.1.15
+- Cover Bild wird jetzt automatisch übernommen.
+- Fehler bei Übermittlung ohne Bild behoben.
+
+1.1.16
+- HTML Sonderzeichen in Bezeichnung berücksichtigt.
+
+1.1.17
+- Fehler behoben, in dem Coverbild beim anlegen nicht festgelegt wird.
+
+1.1.18
+1.1.19
+- Fehler behoben in dem Kategorien einmal als String und Array übermittelt werden.
+
+1.1.20
+- Fehler behoben in dem Zahlungsart- und Verstandartkosten vertauscht waren.
+
+1.1.21
+- Verhindern, dass der Temp Ordner mit Bildkopien vollläuft.
+
+1.1.22
+- Fehler behoben in denen Bildnamen falsch vom Dateityp getrennt wurden.
+
+1.1.23
+- Updatescript für das entfernen fehlerhafter Bildernamen.
+- Fehler behoben in dem temporäre Dateien nicht gelöscht wurden trotz Änderung.
+
+1.1.24
+- Exception fangen die bei übermittlung Fehler verursacht.
+
+1.1.25
+- Fehler behoben in dem die Artikelnummer URL-Kodiert übermittelt wurde.
+
+1.1.26
+- Projektname geändert.
+
+1.2.0
+- API Version auf 18 gesetzt.
+- Stockmanagment überarbeitet.
+- Individuelle Preise können übermittelt werden.
+
+1.2.1
+- Fehler beheben in dem Bestelldaten nicht URL-Kodiert übermittelt werden.
+
+1.2.2
+- Rebsorte als Auswahlfeld.
+- Hersteller wird jetzt aus Winestro übernommen.
+- Artikelart als Auswahlfeld.
+- Kategorie als Auswahlfeld.
+
+1.2.3
+- Shopware Kompatilbilität.
+
+1.2.4 + 1.2.4.1
+- Fehlende Dateien beheben.
+
+1.2.5
+- Shopbeschreibung wird jetzt übernommen.
+- Fehler beim Typecasting für Artikeldetails behoben.
+
+1.2.6
+- Gewicht wird jetzt korrekt übernommen.
+
+1.2.7
+- Problem behoben in dem nur das kleine Bild gezogen wurde.
+
+1.2.8
+- IsActive erkennt jetzt Sortimente.
+
+1.2.9
+- Urlenkodierte Ausgabe der Artikelnummer korrigiert.
+
+1.2.10
+1.2.11
+- Fehlbehandlung von Artikelnummern behoben.
+
+1.2.12
+- Auflösen von + Zeichen in Produktnummer korrigiert.
+- Artikelnummer-Dokumentation angepasst.
+
+1.2.13
+- Übermittlung Lieferland korrigiert.
+
+1.2.14
+- Alte Weinliste aus Datenbank entfernen um Konflikte zu vermeiden.
+
+1.2.15
+- Qualitätskontrolle.
+- Nicht Wein Artikel werden jetzt korrekt mit der ID gespeichert.
+- Weine können jetzt Versandkostenfrei gesetzt werden.
+- Referenztabelle wird jetzt sauber aufgeräumt (1.2.14).
+- Sammelpakete werden jetzt nicht mehr als Wein behandelt und aktiviert ohne Datenprüfung.
+
+1.2.16
+- Artikelbundles werden jetzt mit Weinnummern und Anzahl gespeichert.
+
+1.2.17
+- Artikelbundels werden jetzt deaktiviert, wenn ein Wein Out Of Stock geht.
+
+1.3.0
+- Kompatibilität für Shopware Store herstellen.
+- Fehler in Vergleichsoperator für Bestandsübernahme behoben.
+
+1.3.1
+- Buttons zum manuellen Ausführen der Tasks.
+
+1.3.2
+- Support für Discount Positionen in Winestro.
+
+1.3.3
+- Typo in Namespaces für API Controller behoben.
+
+1.3.4
+- Preiskalkulation unterstützt jetzt Streichpreise. - Wenn keine Produkt ID an der Position gespeichert ist, wird ein Fehler geloggt. Dies bedeutet, dass der Fehler eingetreten ist, das Produkt nicht geholt werden konnte.
+
+1.3.5
+- Fehlerhaften Rückgabewert in neuem Feature für Streichpreise korrigiert.
+
+1.3.6
+- Vergleich bei Streispreis optimiert.
+
+1.3.7
+- Säubern und befüllen der Referenztabelle optimiert.
+
+1.3.8
+- Anlegen von Herstellern korrigiert.
+
+1.3.9
+1.3.10
+1.3.11
+1.3.12
+1.3.13
+- Cronjobs in Beta-Status. Timings eingestellt. Testsystem ohne Fehler.
+- Hersteller werden jetzt korrekt angelegt.
+- Bilddaten-Fehlerbehandlung ergänzt.
+- Bestellungen werden jetzt nur noch nach dem Zeitpunkt der Plugininstallation asugeführt.
+- Pflichtangabe Zucker und Säure entfernt.
+- Bestellexport fehlertoleranter gemacht.
+
+1.3.14
+1.3.15
+- Image size data wird jetzt von temporären File geladen, statt remote.
+
+1.4.0
+- Refactoring um Codequalität zu verbessern.
+- Zeitlimit für Bestandsabfrage wieder integriert.
+- Kiloware kann nun als Maßeinheit angegeben werden.
+- Sonderposition Rabatt erscheint nun nicht mehr mitten in der Rechnung.
+
+1.4.1
+- Sonderposition an letzter Position.
+
+1.4.2
+- Zahlungsart Transaktionscode in Bestellungsübermittlung.
+
+1.4.3
+1.4.4
+- Typo im Bundle-Deaktivierer.
+
+1.4.5
+- Neue Felder aus Winestro hinzugefügt.
+- Felder mit falschen Datentype geändert.
+
+1.4.6
+- Flaschenanzahl wird jetzt gespeichert.
+- Kompletter Datensatz wird unabhängig von "isWine" gespeichert.
+- Typo in Tabellenfeldbezeichnung.
+- Flaschen aus Sammelgruppen können jetzt pro Flasche beim Versand zählen.
+
+1.4.7
+- Bildprozessor überarbeitet.
+- Produktreferenztabelle angelegt.
+
+1.4.8
+- Fix für Bildprozessor.
+
+1.4.9
+- Unterstützung für Kunden die kein PayPal verwenden.
+
+1.4.10
+- Fix für Bildprozessor.
+
+1.4.11
+- Migrationsskript gefixt, Collation entfernt wegen Inkompatibiliät.
+
+1.4.12
+- Bugfix in Winegruppen.
+- Korrektur der Einheiten.
+- Shopnotiz kann jetzt HTML speichern.
+- Fehler bei Bildverarbeitung behoben.
+
+1.4.13
+Wichtig: Shopware 6.5.x Kompatibiltät hergestellt.
+- Kompatibilitätsprobleme mit Shopware 6.5.* gelöst.
+- Unterstützung für HTML description aktiviert.
+- EntityRepositoryInterface ersetzt (kompatiblität/deprecated).
+
+1.4.14
+- FK für Produkttable.
+- Stock wurde nicht nicht gesetzt beim import, wenn der Produktimport abbricht aber die WBO Tabelle schon gespeichert wurde.
+- Bug im Support für Produktversionierung bei gleichbleibender Produktnummer behoben.
+
+1.4.15
+- Flaschen können jetzt für den Versand hinterlegt werden.
+- Nettopreis bei Sonderpreis wird jetzt korrekt gespeichert.
+- Order Status wird jetzt von Winestro übernommen.
+
+1.4.16
+- Support für nullable wbo_articles.stock_date, für leichtere Updates.
+
+1.4.17
+1.4.18
+1.4.19
+- EAN Feld von INT nach VARCHAR korrigiert.
+- Bestandsabfrage berücksichtigt jetzt reservierte Artikelmengen.
+- Mehrwertsteuer kann jetzt auch den zweiten ermäßigten Steuersatz annehmen.
+- Fix für das Typehinting beim URL Generator für Images.
+
+1.4.20
+- Fehler bei der Berechnung der Flaschenanzahl im Versand behoben.
+- Fehlerhafte Produktzuordnungstabelle gefixt.
+- Fehler in Stock-Tabelle behoben. Der korrekte Stand konnte nur alle 12 Stunden geholt werden.
+
+1.4.21
+- Fehler in der Auflösung von Straße und Hausnummer behoben.
+
+1.4.22
+- Migrationsscript korrigiert, das zu Problemen führen kann beim Update.
+- Einheit für Grundpreis standardmäßig Liter, wenn Liter angegeben ist.
+
+1.4.23
+- Workaround für fehlerhaften API XML Response aber mit validem Ergebniss.
+
+1.4.24
+- Fehler in Übermittlung behoben / Fehler im Workaround.
+
+1.4.25
+- Fehler in der Zeichenkettenverarbeitung beseitigt.
+- Alten Workaround entfernt.
+
+1.4.26
+- Debugging erweitert.
+- VersionID bei der Prüfung für das löschen von Mediaeinträgen entfernt.
+
+1.4.27
+- Kompatibilität zu Shopware 6.5.8.3.
+- Fehler in Versandkomponente für Versandkostenmatrix auf Flaschenbasis.
+- Kompatibilität Logger.
+- Artikelname bei Import type conversion von Array nach String.
+
+1.4.28
+- Übertragung auf frei Verfügbarkeit auf: https://github.com/sumedia-webdesign/winestro-api-sw6v1
+
+1.4.29
+- Beheben eines Fehlers beim Zählen von Flaschen im Versand.
+
+1.5.0
+- Kompatibilität für Shopware 6.4 - 6.6 hergestellt.
+
+1.5.1
+- Typvergleichsfehler beseitigt.
+
+1.6.0
+- Cronjobs reaktivieren (manuelle Cronjobs entfernen!)
+- Neue v21.0 API Informationen übertragen (Bitte ab dieser Version die URL ändern)
+- AGB und Lizenz hinzugefügt da Software frei verfügbar und daher noch ungeklärt.

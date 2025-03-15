@@ -28,4 +28,8 @@ class Migration1721528862InstallOrdersTable extends MigrationStep
             ) ENGINE=InnoDB;
         ");
     }
+
+    public function updateDestructive(Connection $connection): void
+    {
+    }
 }

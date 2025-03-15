@@ -308,6 +308,14 @@
             <tag name="console.command" />
         </service>
 
+        <service id="Sumedia\Wbo\Service\Wbo\Command\CronHealthCheck" public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+            <argument type="service" id="scheduled_task.repository" />
+        </service>
+
         <service id="Sumedia\Wbo\Rule\IsWboCart">
             <tag name="shopware.rule.definition"/>
         </service>
@@ -317,7 +325,6 @@
             <tag name="kernel.event_subscriber" />
         </service>
 
-        <!--
         <service id="Sumedia\Wbo\Cron\UpdateWineGroups">
             <tag name="shopware.scheduled.task" />
         </service>
@@ -327,6 +334,10 @@
         </service>
 
         <service id="Sumedia\Wbo\Cron\ExportOrders">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\CronHealthCheck">
             <tag name="shopware.scheduled.task" />
         </service>
 
@@ -350,7 +361,13 @@
             <argument type="service" id="service_container" />
             <tag name="messenger.message_handler" />
         </service>
-        -->
+
+        <service id="Sumedia\Wbo\Cron\CronHealthCheckHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="service_container" />
+            <tag name="messenger.message_handler" />
+        </service>
 
         <service id="Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher" public="true">
             <argument type="service" id="product.repository" />
