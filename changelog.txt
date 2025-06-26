@@ -396,3 +396,10 @@ Wichtig: Shopware 6.5.x Kompatibiltät hergestellt.
 
 1.7.0
 - Kompatibilität mit Shopware 6.7
+
+1.7.1
+- Bestellstatus abgleich erweitert
+- Installationsskripte mit Shopware 6.7 kompatibel gemacht
+- Daten für Bestellungen erweitert
+- Cronjobs mit Shopware 6.7 kompatibel gemacht
+- Kleiner Fehler behoben

@@ -11,7 +11,6 @@ class CheckOrderStatusHandler extends AbstractCronHandler
 {
     /** @var CheckOrderStatus */
     protected $command;
-
     public function __construct(LoggerInterface $logger, EntityRepository $scheduledTaskRepository, Container $container)
     {
         parent::__construct($logger, $scheduledTaskRepository);

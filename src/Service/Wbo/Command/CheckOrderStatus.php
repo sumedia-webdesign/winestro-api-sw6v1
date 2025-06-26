@@ -8,6 +8,8 @@ namespace Sumedia\Wbo\Service\Wbo\Command;
 
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryDefinition;
+use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryEntity;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionDefinition;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderDefinition;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -18,6 +20,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
+use Shopware\Core\System\StateMachine\Aggregation\StateMachineTransition\StateMachineTransitionEntity;
 use Shopware\Core\System\StateMachine\StateMachineRegistry;
 use Shopware\Core\System\StateMachine\Transition;
 use Sumedia\Wbo\Config\WboConfig;
@@ -74,30 +77,70 @@ class CheckOrderStatus extends AbstractCommand implements CommandInterface
     protected function getOrders() : EntitySearchResult
     {
         $orderCriteria = new Criteria();
+        $orderCriteria->addAssociation('transactions');
+        $orderCriteria->addAssociation('deliveries');
         $orderCriteria->addFilter(new RangeFilter('orderDateTime', [
             RangeFilter::GT => date('Y-m-d', time() - 60 * 60 * 24 * 30)
         ]));
+        //$orderCriteria->addFilter(new EqualsFilter('customFields.wbo_order_status', 'erledigt'));
         return $this->orderRepository->search($orderCriteria, $this->context);
     }
 
     protected function setOrdersStatus(EntitySearchResult $orders): void
     {
         foreach ($orders as $order) {
-            $this->setOrderStatus($order);
+            $customFields = $this->getOrderCustomFields($order);
+            $this->setOrderStatus($order, $customFields);
+            $this->setPaymentStatus($order, $customFields);
+            $this->setDeliveryStatus($order, $customFields);
+            $this->setOrderCustomFields($order, $customFields);
         }
     }
 
-    protected function setOrderStatus(OrderEntity $order): void
+    protected function getOrderCustomFields(OrderEntity $order): array
+    {
+        $customFields = $order->getCustomFields() ?? [];
+
+        if (($customFields['wbo_order_number'] ?? '') == '') {
+            return $customFields;
+        }
+
+        $this->checkOrderStatus->setOrderNumber($customFields['wbo_order_number']);
+
+        try {
+            /** @var \Sumedia\Wbo\Service\Wbo\Response\CheckOrderStatus $response */
+            $response = $this->connector->execute($this->checkOrderStatus);
+            if (!$response->isSuccessful()) {
+                $this->log('could not export order (' . $order->getOrderNumber() . '): ' . $response->getError());
+            } else {
+                $customFields['wbo_order_status'] = $response->getOrderStatus();
+                $customFields['wbo_payment_status'] = $response->getPaymentStatus();
+                $customFields['wbo_delivery_link'] = $response->getDeliveryLink();
+                $customFields['wbo_billing_number'] = $response->getBillingNumber();
+            }
+        } catch(\Throwable $e) {
+            $this->logException($e);
+        }
+
+        return $customFields;
+    }
+
+    protected function setOrderCustomFields(OrderEntity $order, array $customFields): void
+    {
+        $customFields = array_replace_recursive($order->getCustomFields(), $customFields);
+        $this->orderRepository->update([['id' => $order->getId(), 'customFields' => $customFields]], $this->context);
+    }
+
+    protected function setOrderStatus(OrderEntity $order, array $customFields): void
     {
         try {
-            $status = $this->getOrderStatus($order);
-            switch ($status) {
+            switch ($customFields['wbo_order_status'] ?? '') {
                 case 'erledigt':
                     try {
                         $this->stateMachineRegistry->transition(new Transition(
                             OrderDefinition::ENTITY_NAME,
                             $order->getId(),
-                            'complete',
+                            'completed',
                             'stateId'
                         ), $this->context);
                     } catch (\Exception $e) {
@@ -111,7 +154,7 @@ class CheckOrderStatus extends AbstractCommand implements CommandInterface
                         $this->stateMachineRegistry->transition(new Transition(
                             OrderDefinition::ENTITY_NAME,
                             $order->getId(),
-                            'complete',
+                            'completed',
                             'stateId'
                         ), $this->context);
                     }
@@ -125,46 +168,48 @@ class CheckOrderStatus extends AbstractCommand implements CommandInterface
                     ), $this->context);
                     break;
             }
-            $this->setOrderCustomFieldsStatus($order, $status);
         } catch(\Exception $e) {
             $this->logException($e);
         }
     }
 
-    protected function getOrderStatus(OrderEntity $order): string
+    protected function setPaymentStatus(OrderEntity $order, array $customFields): void
     {
-        $customFields = $order->getCustomFields();
-        if (!isset($customFields['wbo_order_number'])) {
-            return '';
-        }
-
-        $this->checkOrderStatus->setOrderNumber($customFields['wbo_order_number']);
-
-        $orderStatus = 'new';
         try {
-            /** @var \Sumedia\Wbo\Service\Wbo\Response\CheckOrderStatus $response */
-            $response = $this->connector->execute($this->checkOrderStatus);
-            if (!$response->isSuccessful()) {
-                $this->log('could not export order (' . $order->getOrderNumber() . '): ' . $response->getError());
-            } else {
-                $orderStatus = $response->getOrderStatus();
+            $orderTransactions = $order->getTransactions();
+            $orderTransaction = $orderTransactions->first();
+            $orderTransactionId = $orderTransaction->getId();
+
+            if (($customFields['wbo_payment_status'] ?? '') === 'bezahlt') {
+                $this->stateMachineRegistry->transition(new Transition(
+                    OrderTransactionDefinition::ENTITY_NAME,
+                    $orderTransactionId,
+                    'paid',
+                    'stateId'
+                ), $this->context);
             }
-        } catch(\Throwable $e) {
+        } catch(\Exception $e) {
             $this->logException($e);
         }
-
-        return $orderStatus;
     }
 
-    protected function setOrderCustomFieldsStatus(OrderEntity $order, string $status): void
+    protected function setDeliveryStatus(OrderEntity $order, array $customFields): void
     {
-        $customFields = $order->getCustomFields();
-        $customFields['wbo_order_status'] = $status;
-        $this->orderRepository->update([
-            [
-                'id' => $order->getId(),
-                'customFields' => $customFields
-            ]
-        ], $this->context);
+        try {
+            if (($customFields['wbo_delivery_link'] ?? '') != '') {
+                $orderDeliveries = $order->getDeliveries();
+                $orderDelivery = $orderDeliveries->first();
+                $orderDeliveryId = $orderDelivery->getId();
+
+                $this->stateMachineRegistry->transition(new Transition(
+                    OrderDeliveryDefinition::ENTITY_NAME, // 'order_delivery'
+                    $orderDeliveryId,                     // ID der Lieferung
+                    'ship',                               // oder 'complete' je nach Ziel
+                    'stateId'
+                ), $this->context);
+            }
+        } catch(\Exception $e) {
+            $this->logException($e);
+        }
     }
 }

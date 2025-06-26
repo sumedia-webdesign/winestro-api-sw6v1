@@ -19,8 +19,8 @@
         <input-field type="text">
             <name>apiUrl</name>
             <label>WBO API URL</label>
-            <defaultValue>https://nephele-s5.de/xml/v18.0</defaultValue>
-            <placeholder>https://nephele-s5.de/xml/v18.0</placeholder>
+            <defaultValue>https://nephele-s5.de/xml/v21.0</defaultValue>
+            <placeholder>https://nephele-s5.de/xml/v21.0</placeholder>
         </input-field>
         <input-field type="text">
             <name>userId</name>
@@ -49,8 +49,8 @@
             <name>articleNumberFormat</name>
             <label>Article number format</label>
             <label lang="de-DE">Artikelnummer Format</label>
-            <defaultValue>[articlenumber]+[year]+[bottling]</defaultValue>
-            <placeholder>[articlenumber]+[year]+[bottling]</placeholder>
+            <defaultValue>[articlenumber+year+bottling]</defaultValue>
+            <placeholder>[articlenumber+year+bottling]</placeholder>
         </input-field>
     </card>
 

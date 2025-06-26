@@ -61,13 +61,19 @@ class Install extends SetupAbstract
 
     protected function addWineGroupsTable(): void
     {
-        $wboWineGroupsExists = $this->ifTableExists('wbo_wine-groups');
+        $wboWineGroupsExists = $this->ifTableExists('wbo_wine_groups');
 
         if ($wboWineGroupsExists) {
             return;
         }
 
-        $this->connection->exec('
+        if (method_exists($this->connection, 'exec')) {
+            $exec = [$this->connection, 'exec'];
+        } else {
+            $exec = [$this->connection, 'executeQuery'];
+        }
+
+        $exec('
             CREATE TABLE IF NOT EXISTS wbo_wine_groups
             (
                 id BINARY(16) NOT NULL,
@@ -89,7 +95,13 @@ class Install extends SetupAbstract
             return;
         }
 
-        $this->connection->exec('
+        if (method_exists($this->connection, 'exec')) {
+            $exec = [$this->connection, 'exec'];
+        } else {
+            $exec = [$this->connection, 'executeQuery'];
+        }
+
+        $exec('
             CREATE TABLE wbo_articles
             (
                 id BINARY(16) NOT NULL,
@@ -151,7 +163,7 @@ class Install extends SetupAbstract
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ');
 
-        $this->connection->exec('
+        $exec('
             ALTER TABLE wbo_articles
                 ADD CONSTRAINT `fk.wbo_articles.group_id` 
                     FOREIGN KEY (group_id) 
@@ -163,11 +175,21 @@ class Install extends SetupAbstract
     private function ifTableExists(string $table): bool
     {
         /** @var \Doctrine\DBAL\Driver\PDO\Statement $res */
-        $res = $this->connection->query('SHOW TABLES');
-        foreach ($res->fetchAllAssociative() as $_table) {
-            $_table = current($_table);
-            if ($_table === $table) {
-                return true;
+        if (method_exists($this->connection, 'query')) {
+            $res = $this->connection->query('SHOW TABLES');
+            foreach ($res->fetchAllAssociative() as $_table) {
+                $_table = current($_table);
+                if ($_table === $table) {
+                    return true;
+                }
+            }
+        } else {
+            $res = $this->connection->executeQuery('SHOW TABLES');
+            foreach ($res->fetchAllAssociative() as $_table) {
+                $_table = current($_table);
+                if ($_table === $table) {
+                    return true;
+                }
             }
         }
         return false;

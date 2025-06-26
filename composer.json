@@ -2,7 +2,7 @@
   "name": "sumedia-webdesign/winestro-sw6",
   "description": "Sumedia Winestro Extension",
   "license": "proprietary",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "type": "shopware-platform-plugin",
   "authors": [
     {

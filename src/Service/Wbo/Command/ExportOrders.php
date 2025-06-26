@@ -491,6 +491,13 @@ class ExportOrders extends AbstractCommand implements CommandInterface
 
     protected function setOrderExportedOrderNumber(OrderEntity $order, string $wboOrderNumber): void
     {
+        $customFields = $order->getCustomFields();
+        $customFields['wbo_order_number'] = $wboOrderNumber;
+        $this->orderRepository->update([[
+            'id' => $order->getId(),
+            'customFields' => $customFields
+        ]], $this->context);
+
         $this->wboOrdersRepository->create([[
             'id' => Uuid::randomHex(),
             'orderId' => $order->getId(),

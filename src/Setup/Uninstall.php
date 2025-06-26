@@ -23,6 +23,7 @@ class Uninstall extends SetupAbstract
     {
         $this->context = $context;
         $this->removeConfiguration();
+        $this->removeMigrations();
         $this->drop();
     }
 
@@ -39,21 +40,15 @@ class Uninstall extends SetupAbstract
         $this->systemConfigRepository->delete($ids, $this->context);
     }
 
+    protected function removeMigrations(): void
+    {
+        $this->connection->executeStatement("DELETE FROM `migration` WHERE class LIKE '%Sumedia\Wbo\Migration'");
+    }
+
     protected function drop()
     {
-        $time = time();
         $this->connection->executeStatement("
-            SET FOREIGN_KEY_CHECKS = 0;
-            
-            START TRANSACTION;
-            
-            DROP TABLE IF EXISTS `wbo_articles`;
-            DROP TABLE IF EXISTS `wbo_wine_groups`;
-            DROP TABLE IF EXISTS `wbo_products`;
-            
-            COMMIT;
-            
-            SET FOREIGN_KEY_CHECKS = 1;
+            DROP TABLE IF EXISTS `wbo_articles`, `wbo_orders`, `wbo_products`, `wbo_wine_groups`
         ");
     }
 }

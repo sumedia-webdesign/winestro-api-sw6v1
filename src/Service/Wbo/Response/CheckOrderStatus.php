@@ -19,4 +19,14 @@ class CheckOrderStatus extends ResponseAbstract
     {
         return $this->get('item')[0]['auftrag_versandlink'];
     }
+
+    public function getPaymentStatus(): string
+    {
+        return $this->get('item')[0]['auftrag_bezahlt'];
+    }
+
+    public function getBillingNumber(): string
+    {
+        return $this->get('item')[0]['auftrag_rechnungsnummer'];
+    }
 }
