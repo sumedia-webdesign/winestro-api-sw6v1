@@ -1,0 +1,398 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="Sumedia\Wbo\LoggerFactory">
+            <argument type="string">%kernel.logs_dir%/%%s_%kernel.environment%.log</argument>
+            <argument>%shopware.logger.file_rotation_count%</argument>
+        </service>
+
+        <service id="Sumedia\Wbo\DebugLogger" class="Monolog\Logger">
+            <factory service="Sumedia\Wbo\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_wbo</argument>
+        </service>
+
+        <service id="Sumedia\Wbo\ErrorLogger" class="Monolog\Logger">
+            <factory service="Sumedia\Wbo\LoggerFactory" method="createRotating"/>
+            <argument type="string">sumedia_wbo_error</argument>
+        </service>
+
+        <service id="Sumedia\Wbo\Config\WboConfig" public="true">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        </service>
+
+        <service id="Sumedia\Wbo\Context" class="Sumedia\Wbo\Service\Context" public="true" />
+
+        <service id="Sumedia\Wbo\Service\Wbo\Connector" public="true">
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Credentials" />
+            <argument type="string">DE</argument>
+            <argument type="string">utf-8</argument>
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Credentials" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Entity\WboWineGroupsDefinition">
+            <tag name="shopware.entity.definition" entity="wbo_wine_groups" />
+        </service>
+
+        <service id="Sumedia\Wbo\Entity\WboArticlesDefinition">
+            <tag name="shopware.entity.definition" entity="wbo_articles" />
+        </service>
+
+        <service id="Sumedia\Wbo\Entity\WboProductsDefinition">
+            <tag name="shopware.entity.definition" entity="wbo_products" />
+        </service>
+
+        <service id="Sumedia\Wbo\Entity\WboOrdersDefinition">
+            <tag name="shopware.entity.definition" entity="wbo_orders" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Request\GetEinstellungen" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Request\GetWineGroups" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Request\GetArticles" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Request\GetBestand" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\DeactivateOutOfStockBundles" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="wbo_articles.repository" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Request\ExportOrders" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="string"></argument>
+            <argument type="string"></argument>
+            <argument type="string"></argument>
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="wbo_articles.repository" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Request\CheckOrderStatus" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetWineGroups" public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="wbo_wine_groups.repository" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Request\GetWineGroups" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Connector" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\CheckOrderStatus" public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Connector" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Request\CheckOrderStatus" />
+            <argument type="service" id="order.repository" />
+            <argument type="service" id="order_delivery.repository" />
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\Cli\SetWineGroups" public="true">
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetWineGroups" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\Cli\CheckOrderStatus" public="true">
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\CheckOrderStatus" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\ArticleNumberParser" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Images" public="true">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="media.repository" />
+            <argument type="service" id="media_folder.repository" />
+            <argument type="service" id="product_media.repository" />
+            <argument type="service" id="Shopware\Core\Content\Media\File\FileFetcher" />
+            <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver" />
+            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Price" public="true">
+            <argument type="service" id="currency.repository" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Quality" public="true">
+            <argument type="service" id="property_group_option.repository" />
+            <argument type="service" id="property_group.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Grape" public="true">
+            <argument type="service" id="property_group_option.repository" />
+            <argument type="service" id="property_group.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Unit" public="true">
+            <argument type="service" id="unit.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Cultivation" public="true">
+            <argument type="service" id="property_group_option.repository" />
+            <argument type="service" id="property_group.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Taste" public="true">
+            <argument type="service" id="property_group_option.repository" />
+            <argument type="service" id="property_group.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Year" public="true">
+            <argument type="service" id="property_group_option.repository" />
+            <argument type="service" id="property_group.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Category" public="true">
+            <argument type="service" id="property_group_option.repository" />
+            <argument type="service" id="property_group.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\FreeShipping" public="true" />
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Manufacturer" public="true">
+            <argument type="service" id="product_manufacturer.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Stock" public="true">
+            <argument type="service" id="wbo_articles.repository" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Request\GetBestand" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Connector" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\DeliveryTime" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\IsActive" public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\SalesChannel" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="product_visibility.repository" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\SetCategories" public="true">
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="category_translation.repository" />
+            <argument type="service" id="product_category.repository" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\FilterCollection" public="true">
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Stock" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Images" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Price" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Quality" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Grape" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Unit" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Cultivation" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\FreeShipping" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\IsActive" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Taste" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Year" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Category" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\Manufacturer" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\DeliveryTime" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\SalesChannel" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\SetCategories" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\SetArticles"
+                 public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="wbo_articles.repository" />
+            <argument type="service" id="wbo_products.repository" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="tax.repository" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Request\GetArticles" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Connector" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\ArticleNumberParser" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\FilterCollection" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles\DeactivateOutOfStockBundles" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\Cli\SetArticles" public="true">
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\SetArticles" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\ExportOrders" public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Connector" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Request\ExportOrders" />
+            <argument type="service" id="plugin.repository" />
+            <argument type="service" id="order.repository" />
+            <argument type="service" id="wbo_orders.repository" />
+            <argument type="service" id="order_address.repository" />
+            <argument type="service" id="order_delivery.repository" />
+            <argument type="service" id="order_transaction.repository" />
+            <argument type="service" id="payment_method.repository" />
+            <argument type="service" id="shipping_method.repository" />
+            <argument type="service" id="order_line_item.repository" />
+            <argument type="service" id="customer.repository" />
+            <argument type="service" id="salutation.repository" />
+            <argument type="service" id="country.repository" />
+            <argument type="service" id="wbo_articles.repository" />
+            <argument type="service" id="product.repository" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\Cli\ExportOrders" public="true">
+            <argument type="service" id="Sumedia\Wbo\Service\Wbo\Command\ExportOrders" />
+            <tag name="console.command" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Command\CronHealthCheck" public="true">
+            <argument type="service" id="Sumedia\Wbo\DebugLogger" />
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+            <argument type="service" id="scheduled_task.repository" />
+        </service>
+
+        <service id="Sumedia\Wbo\Rule\IsWboCart">
+            <tag name="shopware.rule.definition"/>
+        </service>
+
+        <service id="Sumedia\Wbo\Entity\ProductExtensionSubscriber">
+            <argument type="service" id="wbo_articles.repository" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\UpdateWineGroups">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\UpdateArticles">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\ExportOrders">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\CronHealthCheck">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\UpdateWineGroupsHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="service_container" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\UpdateArticlesHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="service_container" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\ExportOrdersHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="service_container" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\CronHealthCheckHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="service_container" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher" public="true">
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="wbo_articles.repository" />
+            <argument type="service" id="Sumedia\Wbo\Config\WboConfig" />
+            <argument type="service" id="Sumedia\Wbo\Context" />
+        </service>
+
+        <service id="Shopware\Core\Checkout\Cart\Delivery\DeliveryBuilder"
+                 class="Sumedia\Wbo\Core\Checkout\Cart\Delivery\DeliveryBuilder" />
+
+        <service id="Sumedia\Wbo\Core\Checkout\Cart\Rule\CartBottleRule">
+            <tag name="shopware.rule.definition"/>
+        </service>
+
+        <service id="Sumedia\Wbo\Core\Checkout\Cart\Delivery\DeliveryCalculator"
+                 decorates="Shopware\Core\Checkout\Cart\Delivery\DeliveryCalculator">
+            <argument type="service" id=".inner"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Tax\PercentageTaxRuleBuilder"/>
+            <argument type="service" id="wbo_articles.repository"/>
+        </service>
+
+
+
+    </services>
+
+</container>

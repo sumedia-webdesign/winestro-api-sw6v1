@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Sumedia WBO Verknüpfung</title>
+        <title lang="de-DE">Sumedia WBO Verknüpfung</title>
+        <component name="sw-entity-multi-id-select">
+            <name>saleChannelIds</name>
+            <entity>sales_channel</entity>
+            <label>Select a sales channel...</label>
+            <label lang="de-DE">Verkaufskanal wählen ...</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Sumedia WBO Configuration</title>
+        <title lang="de-DE">Sumedia WBO Konfiguration</title>
+        <input-field type="text">
+            <name>apiUrl</name>
+            <label>WBO API URL</label>
+            <defaultValue>https://nephele-s5.de/xml/v18.0</defaultValue>
+            <placeholder>https://nephele-s5.de/xml/v18.0</placeholder>
+        </input-field>
+        <input-field type="text">
+            <name>userId</name>
+            <label>User ID</label>
+        </input-field>
+        <input-field type="text">
+            <name>shopId</name>
+            <label>Shop ID</label>
+            <defaultValue>1</defaultValue>
+            <placeholder>1</placeholder>
+        </input-field>
+        <input-field type="text">
+            <name>clientId</name>
+            <label>API User</label>
+        </input-field>
+        <input-field type="password">
+            <name>clientSecret</name>
+            <label>API Code</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Articlenumber</title>
+        <title lang="de-DE">Artikelnummer</title>
+        <input-field type="text">
+            <name>articleNumberFormat</name>
+            <label>Article number format</label>
+            <label lang="de-DE">Artikelnummer Format</label>
+            <defaultValue>[articlenumber]+[year]+[bottling]</defaultValue>
+            <placeholder>[articlenumber]+[year]+[bottling]</placeholder>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Productdata from WBO</title>
+        <title lang="de-DE">Produktdaten aus WBO</title>
+        <input-field type="single-select">
+            <name>productDataActivated</name>
+            <options>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Take Productdata from WBO</label>
+            <label lang="de-DE">Produktdaten aus WBO übernehmen</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Delivery counting</title>
+        <title lang="de-DE">Versandzählung</title>
+        <input-field type="single-select">
+            <name>countBottles</name>
+            <options>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Should be counted each bottle on collection groups</label>
+            <label lang="de-DE">Soll jede Flasche einzeln gezählt werden bei Sammelgruppen</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Taxes</title>
+        <title lang="de-DE">Steuern</title>
+        <component name="sw-entity-single-select">
+            <name>taxId</name>
+            <entity>tax</entity>
+            <label>Select default taxrate</label>
+            <label lang="de-DE">Standard Steuersatz auswählen ...</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>reducedTaxId</name>
+            <entity>tax</entity>
+            <label>Select reduced taxrate</label>
+            <label lang="de-DE">Reduzierten Steuersatz auswählen ...</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Media Directory</title>
+        <title lang="de-DE">Medienverzeichnis</title>
+        <component name="sw-entity-single-select">
+            <name>mediaDirectory</name>
+            <entity>media_folder</entity>
+            <label>Select Media Folder ...</label>
+            <label lang="de-DE">Medienverzeichnis auswählen ...</label>
+        </component>
+        <input-field type="int">
+            <name>mediaMaxWidth</name>
+            <label>Image max width (in pixel)</label>
+            <label lang="de-DE">Bildmaximalbreite (in Pixel)</label>
+            <defaultValue>860</defaultValue>
+            <placeholder>860</placeholder>
+        </input-field>
+        <input-field type="int">
+            <name>mediaMaxHeight</name>
+            <label>Image max height (in pixel)</label>
+            <label lang="de-DE">Bildmaximalhöhe (in Pixel)</label>
+            <defaultValue>860</defaultValue>
+            <placeholder>860</placeholder>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Free Shipping</title>
+        <title lang="de-DE">Kostenloser Versand</title>
+        <input-field type="single-select">
+            <name>freeShippingActivated</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Free shipping activated</label>
+            <label lang="de-DE">Kostenloser Versand aktiviert</label>
+        </input-field>
+        <!-- currently not implemented. use free shipping on product basis instead
+        <input-field type="single-select">
+            <name>freeShippingOnlyWboCart</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>0</defaultValue>
+            <label>Free Shipping only for complete WBO Cart</label>
+            <label lang="de-DE">Kostenloser Versand nur für ausschließlich WBO Artikel im Warenkorb</label>
+        </input-field>
+        -->
+    </card>
+
+    <card>
+        <title>Self produced wines</title>
+        <title lang="de-DE">Weine aus eigener Produktion</title>
+        <input-field type="single-select">
+            <name>manufacturerEnabled</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>0</defaultValue>
+            <label>Self produced wines active?</label>
+            <label lang="de-DE">Weine aus eigener Produktion aktiv?</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>manufacturerId</name>
+            <entity>product_manufacturer</entity>
+            <label>Select a manufacturer ...</label>
+            <label lang="de-DE">Hersteller auswählen ...</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Stock Management</title>
+        <title lang="de-DE">Lagerverwaltung</title>
+        <input-field type="single-select">
+            <name>stockEnabled</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>0</defaultValue>
+            <label>Stock Managmenet activated?</label>
+            <label lang="de-DE">Stock Management aktiv? (falls deaktiviert, manuelle pflege)</label>
+        </input-field>
+        <input-field type="text">
+            <name>stockMinimal</name>
+            <label>Minimal Stock</label>
+            <label lang="de-DE">Minimaler Lagerbestand (Alles darunter wird nicht weiter verkauft)</label>
+            <defaultValue>50</defaultValue>
+            <placeholder>50</placeholder>
+        </input-field>
+        <input-field type="text">
+            <name>stockDefault</name>
+            <label>Standard Stock on deactivated Stock Management</label>
+            <label lang="de-DE">Standard Lagerbestand bei deaktiviertem Stock Management</label>
+            <defaultValue>1000</defaultValue>
+            <placeholder>1000</placeholder>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Delivery Time</title>
+        <title lang="de-DE">Lieferzeit</title>
+        <component name="sw-entity-single-select">
+            <name>deliveryTimeId</name>
+            <entity>delivery_time</entity>
+            <label>Select a delivery time ...</label>
+            <label lang="de-DE">Lieferzeit auswählen ...</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Categories assignment</title>
+        <title lang="de-DE">Kategoriezuordnung</title>
+        <input-field type="single-select">
+            <name>setCategoriesActivated</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Should the plugin add automaticaly add categories for products that match the waregroup from WBO</label>
+            <label lang="de-DE">Soll das Plugin automatisch Kategorien für Produkte zuordnen die auf die Warengruppe aus WBO passen.</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Product Properties</title>
+        <title lang="de-DE">Produkteigenschaften</title>
+        <component name="sw-entity-single-select">
+            <name>qualityPropertyId</name>
+            <entity>property_group</entity>
+            <label>Select a product quality property ...</label>
+            <label lang="de-DE">Produkteigenschaft für Qualität auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>qualityPropertyAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new quality types</label>
+            <label lang="de-DE">Automatisch neue Qualitätstypen anlegen</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>tastePropertyId</name>
+            <entity>property_group</entity>
+            <label>Select a product taste property ...</label>
+            <label lang="de-DE">Produkteigenschaft für Geschmack auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>tastePropertyAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new taste types</label>
+            <label lang="de-DE">Automatisch neue Geschmackstypen anlegen</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>cultivationPropertyId</name>
+            <entity>property_group</entity>
+            <label>Select a product region property ...</label>
+            <label lang="de-DE">Produkteigenschaft für Anbaugebiet auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>cultivationPropertyAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new cultivation types</label>
+            <label lang="de-DE">Automatisch neue Anbaugebiete anlegen</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>yearPropertyId</name>
+            <entity>property_group</entity>
+            <label>Select a product year property ...</label>
+            <label lang="de-DE">Produkteigenschaft für Jahrgang auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>yearPropertyAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new years</label>
+            <label lang="de-DE">Automatisch neue Jahrgänge anlegen</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>grapePropertyId</name>
+            <entity>property_group</entity>
+            <label>Select a grape variety property ...</label>
+            <label lang="de-DE">Produkteigenschaft für Rebsorte auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>grapePropertyAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new grape varieties</label>
+            <label lang="de-DE">Automatisch neue Rebsorten anlegen</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>categoryPropertyId</name>
+            <entity>property_group</entity>
+            <label>Select a category property ...</label>
+            <label lang="de-DE">Produkteigenschaft für Kategorie auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>categoryPropertyAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new categories</label>
+            <label lang="de-DE">Automatisch neue Kategorien anlegen</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Product Unit</title>
+        <title lang="de-DE">Produkteinheiten</title>
+        <component name="sw-entity-single-select">
+            <name>unitId</name>
+            <entity>unit</entity>
+            <label>Select a litre product unit ...</label>
+            <label lang="de-DE">Liter Produkteinheit auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>unitAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new unit values</label>
+            <label lang="de-DE">Automatisch neue Einheitswerte anlegen</label>
+        </input-field>
+        <component name="sw-entity-single-select">
+            <name>unitKiloId</name>
+            <entity>unit</entity>
+            <label>Select a kilo product unit ...</label>
+            <label lang="de-DE">Kilo Produkteinheit auswählen ...</label>
+        </component>
+        <input-field type="single-select">
+            <name>unitKiloAutoAdd</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>1</defaultValue>
+            <label>Automaticly add new unit values</label>
+            <label lang="de-DE">Automatisch neue Einheitswerte anlegen</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Send WBO order confirmation email</title>
+        <title lang="de-DE">WBO Bestell-Bestätigungsemail senden</title>
+        <input-field type="single-select">
+            <name>orderConfirmationEmailEnabled</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>0</defaultValue>
+            <label>Send automatic order confirmation email</label>
+            <label lang="de-DE">Sende automatische Bestell-Bestätigungsemail</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Shipping Mapping</title>
+        <title lang="de-DE">Versandarten Mapping</title>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingCollect</name>
+            <entity>shipping_method</entity>
+            <label>Collect in the Store</label>
+            <label lang="de-DE">Selbstabolung</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingTour</name>
+            <entity>shipping_method</entity>
+            <label>Delivery Tour</label>
+            <label lang="de-DE">Liefertour</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingDpd</name>
+            <entity>shipping_method</entity>
+            <label>DPD</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingDhl</name>
+            <entity>shipping_method</entity>
+            <label>DHL</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingUps</name>
+            <entity>shipping_method</entity>
+            <label>UPS</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingTopLogistik</name>
+            <entity>shipping_method</entity>
+            <label>TOP-Logistik</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingGls</name>
+            <entity>shipping_method</entity>
+            <label>GLS</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingHaulage</name>
+            <entity>shipping_method</entity>
+            <label>Haulage Delivery</label>
+            <label lang="de-DE">Spedition</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>shippingMappingHermes</name>
+            <entity>shipping_method</entity>
+            <label>Hermes</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Payment Mapping</title>
+        <title lang="de-DE">Zahlungsarten Mapping</title>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingCash</name>
+            <entity>payment_method</entity>
+            <label>Cash</label>
+            <label lang="de-DE">Bar</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingPrepayed</name>
+            <entity>payment_method</entity>
+            <label>Prepayed</label>
+            <label lang="de-DE">Vorkasse</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingPrepayedPayed</name>
+            <entity>payment_method</entity>
+            <label>Prepayed payed</label>
+            <label lang="de-DE">Vorkasse bezahlt</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingCashPrepayed</name>
+            <entity>payment_method</entity>
+            <label>Prepayed/Cash</label>
+            <label lang="de-DE">Vorkasse/Bar</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingCashOnDelivery</name>
+            <entity>payment_method</entity>
+            <label>CashOnDelivery</label>
+            <label lang="de-DE">Nachnahme</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingDebit</name>
+            <entity>payment_method</entity>
+            <label>Debit.</label>
+            <label lang="de-DE">Lastschrift</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingCreditcard</name>
+            <entity>payment_method</entity>
+            <label>Creditcard</label>
+            <label lang="de-DE">Kreditkarte</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingInvoice</name>
+            <entity>payment_method</entity>
+            <label>Invoice</label>
+            <label lang="de-DE">Rechnung</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingPaypal</name>
+            <entity>payment_method</entity>
+            <label>Paypal</label>
+            <label lang="de-DE">Paypal</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingEc</name>
+            <entity>payment_method</entity>
+            <label>Eletronic Cash</label>
+            <label lang="de-DE">Electronic Cash</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingGiropay</name>
+            <entity>payment_method</entity>
+            <label>Giropay</label>
+            <label lang="de-DE">Giropay</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingSofort</name>
+            <entity>payment_method</entity>
+            <label>Sofortüberweisung</label>
+            <label lang="de-DE">Sofortüberweisung</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingAmazonPay</name>
+            <entity>payment_method</entity>
+            <label>Amazon Pay</label>
+            <label lang="de-DE">Amazon Pay</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingGooglePay</name>
+            <entity>payment_method</entity>
+            <label>Google Pay</label>
+            <label lang="de-DE">Google Pay</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingApplePay</name>
+            <entity>payment_method</entity>
+            <label>Apple Pay</label>
+            <label lang="de-DE">Apple Pay</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingShopifyPayments</name>
+            <entity>payment_method</entity>
+            <label>Shopify Payments</label>
+            <label lang="de-DE">Shopify Payments</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingWineestroPrepayed</name>
+            <entity>payment_method</entity>
+            <label>Wineestro Prepayed</label>
+            <label lang="de-DE">Wineestro Vorkasse</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingEps</name>
+            <entity>payment_method</entity>
+            <label>EPS</label>
+            <label lang="de-DE">EPS</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingIdeal</name>
+            <entity>payment_method</entity>
+            <label>Ideal</label>
+            <label lang="de-DE">Ideal</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingPrzelewy24</name>
+            <entity>payment_method</entity>
+            <label>Przelewy24</label>
+            <label lang="de-DE">Przelewy24</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingAllpay</name>
+            <entity>payment_method</entity>
+            <label>Allpay</label>
+            <label lang="de-DE">Allpay</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingMutibanco</name>
+            <entity>payment_method</entity>
+            <label>Multibanco</label>
+            <label lang="de-DE">Multibanco</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingBancontact</name>
+            <entity>payment_method</entity>
+            <label>Bancontact</label>
+            <label lang="de-DE">Bancontact</label>
+        </component>
+        <component name="sw-entity-single-select">
+            <name>paymentMappingElopage</name>
+            <entity>payment_method</entity>
+            <label>Elopage</label>
+            <label lang="de-DE">Elopage</label>
+        </component>
+    </card>
+
+    <card>
+        <title>Developer options</title>
+        <title lang="de-DE">Entwickler Optionen</title>
+        <input-field type="single-select">
+            <name>debugEnabled</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>0</defaultValue>
+            <label>Should the log filled with debug informations?</label>
+            <label lang="de-DE">Sollen im Logfile Debuginformationen ausgegeben werden?</label>
+        </input-field>
+        <input-field type="single-select">
+            <name>transmittionLogEnabled</name>
+            <options>
+                <option>
+                    <id>0</id>
+                    <name>No</name>
+                    <name lang="de-DE">Nein</name>
+                </option>
+                <option>
+                    <id>1</id>
+                    <name>Yes</name>
+                    <name lang="de-DE">Ja</name>
+                </option>
+            </options>
+            <defaultValue>0</defaultValue>
+            <label>Should the transmittion be logged?</label>
+            <label lang="de-DE">Sollen die Übermittelungsdaten geloggt werden?</label>
+        </input-field>
+    </card>
+
+</config>
