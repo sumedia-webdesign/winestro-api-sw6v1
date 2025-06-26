@@ -12,9 +12,6 @@ class WboOrdersEntity extends Entity
     use EntityIdTrait;
 
     /** @var string */
-    protected $id;
-
-    /** @var string */
     protected $orderId;
 
     /** @var string */

@@ -6,36 +6,36 @@
 
     <services>
 
-        <service id="Sumedia\WinestroAPI\Cron\UpdateWineGroupsHandler">
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
+        <service id="Sumedia\Wbo\Cron\UpdateWineGroupsHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="service_container" />
             <tag name="messenger.message_handler" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\UpdateArticlesHandler">
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
+        <service id="Sumedia\Wbo\Cron\UpdateArticlesHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="service_container" />
             <tag name="messenger.message_handler" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\ExportOrdersHandler">
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
+        <service id="Sumedia\Wbo\Cron\ExportOrdersHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="service_container" />
             <tag name="messenger.message_handler" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\CronHealthCheckHandler">
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
+        <service id="Sumedia\Wbo\Cron\CronHealthCheckHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="service_container" />
             <tag name="messenger.message_handler" />
         </service>
 
-        <service id="Sumedia\WinestroAPI\Cron\CheckOrderStatusHandler">
-            <argument type="service" id="Sumedia\WinestroAPI\ErrorLogger" />
+        <service id="Sumedia\Wbo\Cron\CheckOrderStatusHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="service_container" />
             <tag name="messenger.message_handler" />

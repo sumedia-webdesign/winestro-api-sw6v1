@@ -390,3 +390,9 @@ Wichtig: Shopware 6.5.x Kompatibiltät hergestellt.
 - Cronjobs reaktivieren (manuelle Cronjobs entfernen!)
 - Neue v21.0 API Informationen übertragen (Bitte ab dieser Version die URL ändern)
 - AGB und Lizenz hinzugefügt da Software frei verfügbar und daher noch ungeklärt.
+
+1.6.1
+- Prüfung auf invalide Daten die in Winestro v21 aufgetreten sind.
+
+1.7.0
+- Kompatibilität mit Shopware 6.7

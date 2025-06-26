@@ -21,13 +21,13 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\NotFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Sumedia\Wbo\Config\WboConfig;
 use Sumedia\Wbo\Service\Wbo\ConnectorInterface;
 use Sumedia\Wbo\Service\Wbo\PaymentMatcher;
 use Sumedia\Wbo\Service\Wbo\Request\ExportOrders as ExportOrdersRequest;
 use Sumedia\Wbo\Service\Wbo\ShippingMatcher;
-use Sumedia\Wbo\Service\WboPayments;
 use Symfony\Component\Validator\Constraints\Range;
 
 class ExportOrders extends AbstractCommand implements CommandInterface
@@ -140,6 +140,9 @@ class ExportOrders extends AbstractCommand implements CommandInterface
         ]));
         $orderCriteria->addFilter(new RangeFilter('createdAt', [
             RangeFilter::GT => (new \DateTimeImmutable())->sub(\DateInterval::createFromDateString('5 days'))->format('Y-m-d H:i:s')
+        ]));
+        $orderCriteria->addFilter(new NotFilter(NotFilter::CONNECTION_AND, [
+            new EqualsFilter('customFields.wbo_order_exported_flag', 1),
         ]));
         $orders = $this->orderRepository->search($orderCriteria, $this->context);
         foreach ($orders as $order) {

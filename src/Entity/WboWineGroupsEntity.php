@@ -12,9 +12,6 @@ class WboWineGroupsEntity extends Entity
     use EntityIdTrait;
 
     /** @var string */
-    protected $id;
-
-    /** @var string */
     protected $groupId;
 
     /** @var string */

@@ -140,7 +140,7 @@ class Article
 
         $articleData['artikel_fuellgewicht'] = $articleData['artikel_fuellgewicht'] / 1000;
 
-        if (isset($articleData['artikel_warengruppen'])) {
+        if (isset($articleData['artikel_warengruppen']) && isset($articleData['artikel_warengruppen']['warengruppe'])) {
             $articleData['artikel_warengruppen']['warengruppe'] = is_string($articleData['artikel_warengruppen']['warengruppe'])
                 ? [$articleData['artikel_warengruppen']['warengruppe']] : $articleData['artikel_warengruppen']['warengruppe'];
             if (!is_array($articleData['artikel_warengruppen']['warengruppe'])) {

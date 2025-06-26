@@ -4,11 +4,11 @@ namespace Sumedia\Wbo\Cron;
 
 use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTask;
 
-class CronHealthCheck extends ScheduledTask
+class CheckOrderStatus extends ScheduledTask
 {
     public static function getTaskName(): string
     {
-        return 'wbo.cron_health_check';
+        return 'wbo.check_order_status';
     }
 
     public static function getDefaultInterval(): int
