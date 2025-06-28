@@ -2,13 +2,47 @@
 
 namespace Sumedia\Wbo\Cron;
 
-use Sumedia\Wbo\Cron\v6_4\AbstractCronHandler as BaseAbstractCronHandler6_4;
-use Sumedia\Wbo\Cron\v6_7\AbstractCronHandler as BaseAbstractCronHandler6_7;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Psr\Log\LoggerInterface;
+use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTask;
+use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskHandler;
 
-$shopwareVersion = \Composer\InstalledVersions::getVersion('shopware/core');
+abstract class AbstractCronHandler extends ScheduledTaskHandler
+{
+    protected $errorLogger;
 
-if (version_compare($shopwareVersion, '6.7.0', '>=')) {
-    abstract class AbstractCronHandler extends BaseAbstractCronHandler6_7 {}
-} else {
-    abstract class AbstractCronHandler extends BaseAbstractCronHandler6_4 {}
+    public function __construct(LoggerInterface $errorLogger, EntityRepository $scheduledTaskRepository)
+    {
+        parent::__construct($scheduledTaskRepository, $errorLogger);
+        $this->errorLogger = $errorLogger;
+    }
+
+    public function run(): void
+    {
+        set_error_handler([$this, 'handleError']);
+
+        try {
+            parent::run();
+        } catch(\Throwable $e) {
+            $this->logException($e);
+        } finally {
+            restore_error_handler();
+        }
+    }
+
+    public function handleError($code, $message, $file, $line)
+    {
+        $exception = new \ErrorException($message, $code, E_ERROR, $file, $line);
+        $this->logException($exception);
+        return true;
+    }
+
+    public function logException(\Throwable $e): void
+    {
+        $message =
+            $e->getMessage() . "\n in " .
+            $e->getFile() . "\n line " .
+            $e->getLine() . "\n" . $e->getTraceAsString();
+        $this->errorLogger->error($message);
+    }
 }

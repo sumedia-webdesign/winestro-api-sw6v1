@@ -337,6 +337,10 @@
             <tag name="shopware.scheduled.task" />
         </service>
 
+        <service id="Sumedia\Wbo\Cron\CheckOrderStatus">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
         <service id="Sumedia\Wbo\Cron\CronHealthCheck">
             <tag name="shopware.scheduled.task" />
         </service>
@@ -356,6 +360,13 @@
         </service>
 
         <service id="Sumedia\Wbo\Cron\ExportOrdersHandler">
+            <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="service_container" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Sumedia\Wbo\Cron\CheckOrderStatusHandler">
             <argument type="service" id="Sumedia\Wbo\ErrorLogger" />
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="service_container" />

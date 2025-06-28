@@ -403,3 +403,7 @@ Wichtig: Shopware 6.5.x Kompatibiltät hergestellt.
 - Daten für Bestellungen erweitert
 - Cronjobs mit Shopware 6.7 kompatibel gemacht
 - Kleiner Fehler behoben
+
+1.7.2
+- Cronjobs überarbeitet
+- Support für Shopware 6.4 weggefallen

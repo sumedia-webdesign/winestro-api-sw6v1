@@ -20,6 +20,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Sumedia\Wbo\Service\Wbo\Delivery\DeliveryQuantityFetcher;
 use Sumedia\Wbo\Setup\Install;
 use Sumedia\Wbo\Setup\Uninstall;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SumediaWbo extends Plugin
